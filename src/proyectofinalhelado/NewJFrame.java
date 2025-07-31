@@ -251,7 +251,7 @@ private int contadorPedidos = 1;
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 730, 270, 230));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 730, 340, 230));
 
         jSeparator5.setForeground(new java.awt.Color(255, 153, 102));
         background.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 680, 460, 20));
