@@ -131,7 +131,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Login"/>
+                <Property name="text" type="java.lang.String" value="login"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField1">

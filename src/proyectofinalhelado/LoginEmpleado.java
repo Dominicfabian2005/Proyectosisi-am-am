@@ -54,7 +54,7 @@ public class LoginEmpleado extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 102, 51));
         jLabel3.setText("Contraseña:");
 
-        jButton1.setText("Login");
+        jButton1.setText("login");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
