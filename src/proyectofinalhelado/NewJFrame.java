@@ -1,20 +1,26 @@
+package proyectofinalhelado;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package proyectofinalhelado;
 
-import com.mycompany.sistemasdepedidos.Cliente;
-import com.mycompany.sistemasdepedidos.Producto;
-import com.mycompany.sistemasdepedidos.DetallePedido;
-import com.mycompany.sistemasdepedidos.Pedido;
+
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableModel;
+import proyectofinalhelado.Cliente;
+import proyectofinalhelado.Pedido;
+import proyectofinalhelado.PedidoDao;
+import java.sql.SQLException;
+import proyectofinalhelado.Pedido;
+import proyectofinalhelado.Pedido;
+import proyectofinalhelado.PedidoDao;
+import proyectofinalhelado.PedidoDao;
+
 
 /**
  *
@@ -29,6 +35,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
     }
+
   private Pedido pedidoActual;
 
 // Lista global para almacenar todos los pedidos
@@ -332,13 +339,17 @@ private int contadorPedidos = 1;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1248, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -435,65 +446,48 @@ private int contadorPedidos = 1;
         return;
     }
 
-   
-    Cliente cliente = new Cliente(listaPedidos.size() + 1, nombreCliente); // ID automático
+    // Asumiendo que pedidoActual es un objeto Pedido con la lista de detalles ya armada
+    pedidoActual.setEstado("Pendiente");
+    pedidoActual.setFecha(new Date());
+    // Si no tienes setCliente, agrégalo o usa otra forma para guardar cliente
+    // Aquí simplifico, asumo que tienes un setter o lo haces así:
+    // pedidoActual.setCliente(nombreCliente);
 
-    
-    listaPedidos.add(pedidoActual);
+        var dao = new PedidoDao();
+    try {
+        // Insertar pedido y obtener su ID generado
+        int idPedido = dao.insertarPedido(nombreCliente);
 
-  
-    JOptionPane.showMessageDialog(this, "¡Pedido enviado con éxito!");
+        // Insertar los detalles del pedido
+        dao.insertarDetalles(idPedido, pedidoActual.getDetalles());
 
-  
-    contadorPedidos++;
-    pedidoActual = new Pedido(contadorPedidos, new Date(), "Pendiente");
+        JOptionPane.showMessageDialog(this, "¡Pedido enviado con éxito!");
 
-   
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Borra las filas
-    jTextField1.setText("");
-    jTextField2.setText("");
-    jSpinner1.setValue(1);
-    buttonGroup1.clearSelection();
-    for (JCheckBox cb : new JCheckBox[]{jCheckBox1, jCheckBox2, jCheckBox3, jCheckBox4, jCheckBox5, jCheckBox6, jCheckBox7, jCheckBox8, jCheckBox9}) {
-        cb.setSelected(false);
+        // Limpiar formulario y variables para nuevo pedido
+        jTextField2.setText("");
+        // Aquí limpia tus checkboxes, spinner, etc.
+        // Reiniciar pedidoActual si quieres:
+        pedidoActual = new Pedido(0, new Date(), "Pendiente");
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al enviar pedido: " + e.getMessage());
+        e.printStackTrace();
     }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewJFrame().setVisible(true);
-            }
-        });
+     public static void main(String[] args) {
+ java.awt.EventQueue.invokeLater(() -> {
+new NewJFrame().setVisible(true);
+ });
     }
+
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -544,4 +538,6 @@ private int contadorPedidos = 1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel logolabel;
     // End of variables declaration//GEN-END:variables
+
+
 }

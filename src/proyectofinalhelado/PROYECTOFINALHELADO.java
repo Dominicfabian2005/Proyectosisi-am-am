@@ -4,6 +4,7 @@
  */
 package proyectofinalhelado;
 
+
 /**
  *
  * @author domif
@@ -14,10 +15,10 @@ public class PROYECTOFINALHELADO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-       javax.swing.SwingUtilities.invokeLater(() -> {
-           new NewJFrame().setVisible(true);
-       });
+   java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Iniciohelado().setVisible(true);
+        }
+    });
     }
 }
-

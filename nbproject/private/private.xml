@@ -7,10 +7,16 @@
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/NewJFrame.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Persona.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Cliente.java</file>
-            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Empleado.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/EmpleadoPack/Empleado.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Producto.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/DetallePedido.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Pedido.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/OrdenPreview.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/EmpleadoPack/LoginEmpleado.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/conexionBD/ConexionDB.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/conexionBD/TestConexion.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/PedidoDao.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Iniciohelado.java</file>
         </group>
     </open-files>
 </project-private>
