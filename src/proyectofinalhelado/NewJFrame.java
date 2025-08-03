@@ -16,6 +16,7 @@ import proyectofinalhelado.Cliente;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.PedidoDao;
 import java.sql.SQLException;
+import javax.swing.JTable;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.PedidoDao;
