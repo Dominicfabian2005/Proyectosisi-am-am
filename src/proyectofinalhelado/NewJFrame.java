@@ -16,6 +16,7 @@ import proyectofinalhelado.Cliente;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.PedidoDao;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.Pedido;
@@ -39,8 +40,12 @@ public class NewJFrame extends javax.swing.JFrame {
 model.setRowCount(0); // Elimina todas las filas
 
  agregarEventoEliminarArticulo();
+ pack();
+
 
     }
+   
+
 
     private void agregarEventoEliminarArticulo() {
     jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -79,6 +84,7 @@ private int contadorPedidos = 1;
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         background = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -125,6 +131,22 @@ private int contadorPedidos = 1;
         jSeparator7 = new javax.swing.JSeparator();
         jLabel17 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        jRadioButton9 = new javax.swing.JRadioButton();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,10 +163,10 @@ private int contadorPedidos = 1;
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1260, Short.MAX_VALUE)
+            .addGap(0, 1960, Short.MAX_VALUE)
         );
 
-        background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1260));
+        background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 1960));
 
         logolabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (1).png"))); // NOI18N
         background.add(logolabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, -10, 140, 140));
@@ -215,7 +237,7 @@ private int contadorPedidos = 1;
         jLabel9.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 153, 102));
         jLabel9.setText("TAMANO:");
-        background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 410, -1, 20));
+        background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 750, -1, 20));
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -226,31 +248,31 @@ private int contadorPedidos = 1;
                 jRadioButton1ActionPerformed(evt);
             }
         });
-        background.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 410, -1, -1));
+        background.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 750, -1, -1));
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jRadioButton2.setForeground(new java.awt.Color(204, 153, 255));
         jRadioButton2.setText("Mediano");
-        background.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 410, -1, -1));
+        background.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 750, -1, -1));
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jRadioButton3.setForeground(new java.awt.Color(204, 153, 255));
         jRadioButton3.setText("Grande");
-        background.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 410, -1, -1));
+        background.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 750, -1, -1));
 
         jSeparator1.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 393, 460, 10));
+        background.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 740, 460, 10));
 
         jSeparator2.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, 460, -1));
+        background.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 780, 460, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(204, 153, 255));
         jLabel10.setText("CANTIDAD: ");
-        background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 590, -1, -1));
-        background.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 590, -1, -1));
+        background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 870, -1, -1));
+        background.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 870, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -261,15 +283,15 @@ private int contadorPedidos = 1;
                 jButton1ActionPerformed(evt);
             }
         });
-        background.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 640, -1, -1));
+        background.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 920, -1, -1));
 
         jSeparator4.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 620, 460, 20));
+        background.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 900, 460, 20));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 153, 102));
         jLabel11.setText("Tu lista de pedidos agregados");
-        background.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 690, -1, -1));
+        background.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 960, -1, -1));
 
         jTable1.setBackground(new java.awt.Color(204, 153, 255));
         jTable1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -287,19 +309,19 @@ private int contadorPedidos = 1;
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 730, 340, 230));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 990, 340, 230));
 
         jSeparator5.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 680, 460, 20));
+        background.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 950, 460, 20));
 
         jTextField1.setForeground(new java.awt.Color(153, 0, 0));
         jTextField1.setEnabled(false);
-        background.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1020, 140, -1));
+        background.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1260, 140, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(204, 153, 255));
         jLabel12.setText("TOTAL:");
-        background.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 1020, -1, -1));
+        background.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 1260, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(204, 204, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
@@ -310,12 +332,12 @@ private int contadorPedidos = 1;
                 jButton2ActionPerformed(evt);
             }
         });
-        background.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 1140, -1, -1));
+        background.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 1370, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 153, 102));
         jLabel13.setText("TOPPING: ");
-        background.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 470, -1, -1));
+        background.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 790, -1, -1));
 
         jCheckBox7.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jCheckBox7.setForeground(new java.awt.Color(204, 153, 255));
@@ -325,44 +347,119 @@ private int contadorPedidos = 1;
                 jCheckBox7ActionPerformed(evt);
             }
         });
-        background.add(jCheckBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, -1, -1));
+        background.add(jCheckBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 790, -1, -1));
 
         jCheckBox8.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jCheckBox8.setForeground(new java.awt.Color(204, 153, 255));
         jCheckBox8.setText("Chispas");
-        background.add(jCheckBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 470, -1, -1));
+        background.add(jCheckBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 790, -1, -1));
 
         jCheckBox9.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jCheckBox9.setForeground(new java.awt.Color(204, 153, 255));
         jCheckBox9.setText("Frutas");
-        background.add(jCheckBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, -1, -1));
+        background.add(jCheckBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 790, -1, -1));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (7).png"))); // NOI18N
-        background.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, -1, -1));
+        background.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 820, -1, -1));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (8).png"))); // NOI18N
-        background.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, -1, -1));
+        background.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 810, -1, -1));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (9).png"))); // NOI18N
-        background.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, -1, -1));
+        background.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 820, -1, -1));
 
         jSeparator6.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 1000, 460, 20));
+        background.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 1240, 460, 20));
 
         jSeparator7.setForeground(new java.awt.Color(255, 153, 102));
-        background.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 1060, 460, 20));
+        background.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 1290, 460, 20));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 153, 102));
         jLabel17.setText("NOMBRE:");
-        background.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 1090, -1, -1));
+        background.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 1320, -1, -1));
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-        background.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1090, 240, -1));
+        background.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1320, 240, -1));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel18.setText("HELADOS");
+        background.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, -1, -1));
+        background.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 420, 480, 20));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel19.setText("PALETAS");
+        background.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 153, 102));
+        jLabel20.setText("SABORES:");
+        background.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, -1, -1));
+
+        buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton4.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton4.setText("Frutos del bosque");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+        background.add(jRadioButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 480, -1, -1));
+
+        buttonGroup2.add(jRadioButton5);
+        jRadioButton5.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton5.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton5.setText("Naranja");
+        background.add(jRadioButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 480, -1, -1));
+
+        buttonGroup2.add(jRadioButton6);
+        jRadioButton6.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton6.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton6.setText("Quiki");
+        background.add(jRadioButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, -1, -1));
+
+        buttonGroup2.add(jRadioButton7);
+        jRadioButton7.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton7.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton7.setText("Sandia");
+        background.add(jRadioButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 600, -1, -1));
+
+        buttonGroup2.add(jRadioButton8);
+        jRadioButton8.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton8.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton8.setText("Limon");
+        background.add(jRadioButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 600, -1, -1));
+
+        buttonGroup2.add(jRadioButton9);
+        jRadioButton9.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jRadioButton9.setForeground(new java.awt.Color(204, 153, 255));
+        jRadioButton9.setText("Frutos rojos");
+        background.add(jRadioButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 600, -1, -1));
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (11).png"))); // NOI18N
+        background.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 510, -1, -1));
+
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (12).png"))); // NOI18N
+        background.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 510, -1, -1));
+
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (13).png"))); // NOI18N
+        background.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 510, -1, -1));
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (15).png"))); // NOI18N
+        background.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 640, -1, -1));
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (16).png"))); // NOI18N
+        background.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 640, -1, -1));
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (17).png"))); // NOI18N
+        background.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 640, -1, -1));
 
         jScrollPane2.setViewportView(background);
 
@@ -370,17 +467,16 @@ private int contadorPedidos = 1;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1248, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1586, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(195, 195, 195))
         );
 
         pack();
@@ -473,6 +569,10 @@ private int contadorPedidos = 1;
      
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -489,6 +589,7 @@ new NewJFrame().setVisible(true);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
@@ -509,7 +610,16 @@ new NewJFrame().setVisible(true);
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -521,10 +631,17 @@ new NewJFrame().setVisible(true);
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
+    private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
