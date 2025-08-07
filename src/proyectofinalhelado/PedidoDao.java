@@ -47,4 +47,12 @@ public class PedidoDao {
             insertarDetalle(idPedido, d);
         }
     }
+
+    int insertarPedido(Pedido pedidoActual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void actualizarTotal(int idPedido, double total) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

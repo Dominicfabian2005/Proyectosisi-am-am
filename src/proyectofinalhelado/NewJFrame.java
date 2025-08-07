@@ -35,8 +35,36 @@ public class NewJFrame extends javax.swing.JFrame {
     
     public NewJFrame() {
         initComponents();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+model.setRowCount(0); // Elimina todas las filas
+
+ agregarEventoEliminarArticulo();
+
     }
 
+    private void agregarEventoEliminarArticulo() {
+    jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            int filaSeleccionada = jTable1.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                int confirmacion = JOptionPane.showConfirmDialog(
+                    null,
+                    "¿Deseas eliminar este producto del pedido?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    var model = (DefaultTableModel) jTable1.getModel();
+                    model.removeRow(filaSeleccionada);
+                }
+            }
+        }
+    });
+}
+
+    
   private Pedido pedidoActual;
 
 // Lista global para almacenar todos los pedidos
@@ -182,7 +210,7 @@ private int contadorPedidos = 1;
         background.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, -1, -1));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe Express - file (5).png"))); // NOI18N
-        background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, -1, -1));
+        background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(396, 190, 50, 80));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 153, 102));
@@ -263,7 +291,10 @@ private int contadorPedidos = 1;
 
         jSeparator5.setForeground(new java.awt.Color(255, 153, 102));
         background.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 680, 460, 20));
-        background.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1020, -1, -1));
+
+        jTextField1.setForeground(new java.awt.Color(153, 0, 0));
+        jTextField1.setEnabled(false);
+        background.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1020, 140, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(204, 153, 255));
@@ -326,7 +357,6 @@ private int contadorPedidos = 1;
         jLabel17.setText("NOMBRE:");
         background.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 1090, -1, -1));
 
-        jTextField2.setText(".");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -391,7 +421,7 @@ private int contadorPedidos = 1;
   
     String tamaño = "";
     int precioTamaño = 0;
-    if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioTamaño = 20; }
+    if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioTamaño = 0; }
     else if (jRadioButton2.isSelected()) { tamaño = "Mediano"; precioTamaño = 35; }
     else if (jRadioButton3.isSelected()) { tamaño = "Grande"; precioTamaño = 50; }
     else {
@@ -440,41 +470,7 @@ private int contadorPedidos = 1;
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         String nombreCliente = jTextField2.getText().trim();
-
-    if (nombreCliente.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, escribe tu nombre.");
-        return;
-    }
-
-    // Asumiendo que pedidoActual es un objeto Pedido con la lista de detalles ya armada
-    pedidoActual.setEstado("Pendiente");
-    pedidoActual.setFecha(new Date());
-    // Si no tienes setCliente, agrégalo o usa otra forma para guardar cliente
-    // Aquí simplifico, asumo que tienes un setter o lo haces así:
-    // pedidoActual.setCliente(nombreCliente);
-
-        var dao = new PedidoDao();
-    try {
-        // Insertar pedido y obtener su ID generado
-        int idPedido = dao.insertarPedido(nombreCliente);
-
-        // Insertar los detalles del pedido
-        dao.insertarDetalles(idPedido, pedidoActual.getDetalles());
-
-        JOptionPane.showMessageDialog(this, "¡Pedido enviado con éxito!");
-
-        // Limpiar formulario y variables para nuevo pedido
-        jTextField2.setText("");
-        // Aquí limpia tus checkboxes, spinner, etc.
-        // Reiniciar pedidoActual si quieres:
-        pedidoActual = new Pedido(0, new Date(), "Pendiente");
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al enviar pedido: " + e.getMessage());
-        e.printStackTrace();
-    }
-
+     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

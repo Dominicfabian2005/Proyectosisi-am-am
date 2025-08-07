@@ -10,15 +10,30 @@ import java.util.List;
 
 public class Pedido {
     private int id;
+    private String nombreCliente;
     private Date fecha;
     private String estado;
+    private double total;
     private List<DetallePedido> detalles;
 
+    // Constructor con parámetros
     public Pedido(int id, Date fecha, String estado) {
         this.id = id;
         this.fecha = fecha;
         this.estado = estado;
         this.detalles = new ArrayList<>();
+        this.total = 0;
+        this.nombreCliente = "";
+    }
+
+    // Constructor vacío que inicializa la lista y otros atributos
+    public Pedido() {
+        this.id = 0;
+        this.fecha = new Date();
+        this.estado = "";
+        this.detalles = new ArrayList<>();
+        this.total = 0;
+        this.nombreCliente = "";
     }
 
     public void agregarDetalle(DetallePedido detalle) {
@@ -26,26 +41,65 @@ public class Pedido {
     }
 
     public double calcularTotal() {
-        double total = 0;
+        double total;
+        total = 0;
         for (DetallePedido detalle : detalles) {
             total += detalle.calcularSubtotal();
         }
+        this.total = total;
         return total;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    // Getters y setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public String getEstado() {
         return estado;
     }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     public List<DetallePedido> getDetalles() {
         return detalles;
     }
 
-    public void setFecha(Date date) {
+    public void setDetalles(List<DetallePedido> detalles) {
+        this.detalles = detalles;
+    }
+
+    void setNombre(String nombreCliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
