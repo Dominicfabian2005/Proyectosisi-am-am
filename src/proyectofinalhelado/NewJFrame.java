@@ -6,6 +6,10 @@ package proyectofinalhelado;
 
 
 
+import java.sql.Connection;
+
+import conexionBD.ConexionDB;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +26,11 @@ import proyectofinalhelado.Pedido;
 import proyectofinalhelado.Pedido;
 import proyectofinalhelado.PedidoDao;
 import proyectofinalhelado.PedidoDao;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.DriverManager;
 
 
 /**
@@ -37,11 +46,13 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-model.setRowCount(0); // Elimina todas las filas
+model.setRowCount(0); 
 
  agregarEventoEliminarArticulo();
  pack();
-
+  
+  JOptionPane.showMessageDialog(this, "Recuerde registrar un producto a la vez");
+ 
 
     }
    
@@ -151,6 +162,7 @@ private int contadorPedidos = 1;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background.setBackground(new java.awt.Color(255, 255, 255));
+        background.setPreferredSize(new java.awt.Dimension(560, 2450));
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 102));
@@ -474,47 +486,148 @@ private int contadorPedidos = 1;
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1586, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(195, 195, 195))
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1592, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
 
-    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox6ActionPerformed
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+     if (jTextField2.getText().isEmpty()){  
+         JOptionPane.showMessageDialog(this, "por favor, igrese su nombre");
+        return;
+         
+     }
+         
+         if (jTable1.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "No hay productos en el pedido");
+        return;
+    }
+         
+      DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+String sql = "INSERT INTO pedido (cliente, fecha, estado, total) VALUES (?, ?, ?, ?)";
+
+Connection conn = null;
+PreparedStatement ps = null;
+
+try {
+    conn = (Connection) ConexionDB.conectar();
+    if (conn == null) {
+        JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.");
+        return;
+    }
+
+    ps = conn.prepareStatement(sql);
+
+    String cliente = jTextField2.getText();  
+    String total = jTextField1.getText();   
+    String estado = "pendiente";                
+    java.sql.Date fechaActual = new java.sql.Date(System.currentTimeMillis());
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+      
+
+        ps.setString(1, cliente);
+        ps.setDate(2, fechaActual);
+        ps.setString(3, estado);
+        ps.setString(4, total);
+       
+        ps.executeUpdate();
+    }
+
+    JOptionPane.showMessageDialog(null, "Datos enviados exitosamente.");
+
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Error al insertar datos: " + e.getMessage());
+} finally {
+    try {
+        if (ps != null) ps.close();
+        if (conn != null) conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+               
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  int countSabores = 0;
+      int countSabores = 0;
+boolean esPaleta = false;
+String producto = "";
+int precioProducto = 0;
+
+// Sabores (solo si no eligió paleta)
+if (jRadioButton4.isSelected()) { 
+    esPaleta = true; 
+    producto = "frutos del bosque"; 
+    precioProducto = 55; 
+}
+else if (jRadioButton5.isSelected()) { 
+    esPaleta = true; 
+    producto = "Naranja"; 
+    precioProducto = 40; 
+}
+
+
+else if (jRadioButton6.isSelected()){
+     esPaleta = true; 
+    producto = "quiwi"; 
+    precioProducto = 45; 
+}
+else if (jRadioButton7.isSelected()){
+     esPaleta = true; 
+    producto = "sandia"; 
+    precioProducto = 40; 
+}
+else if (jRadioButton8.isSelected()){
+     esPaleta = true; 
+    producto = "limon"; 
+    precioProducto = 40; 
+}
+else if (jRadioButton9.isSelected()){
+     esPaleta = true; 
+    producto = "frutos rojos"; 
+    precioProducto = 55; 
+}
+
+
+else {
+
     if (jCheckBox1.isSelected()) countSabores++;
     if (jCheckBox2.isSelected()) countSabores++;
     if (jCheckBox3.isSelected()) countSabores++;
     if (jCheckBox4.isSelected()) countSabores++;
     if (jCheckBox5.isSelected()) countSabores++;
     if (jCheckBox6.isSelected()) countSabores++;
-    
+
     if (countSabores > 2) {
         JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
         return;
     }
-    
-  
-    String sabor = "";
-    int precioSabores = 0;
-    if (jCheckBox1.isSelected()) { sabor += "Vainilla "; precioSabores += 50; }
-    if (jCheckBox2.isSelected()) { sabor += "Chocolate "; precioSabores += 60; }
-    if (jCheckBox3.isSelected()) { sabor += "Fresa "; precioSabores += 40; }
-    if (jCheckBox4.isSelected()) { sabor += "Pistacho "; precioSabores += 70; }
-    if (jCheckBox5.isSelected()) { sabor += "Ron pasa "; precioSabores += 65; }
-    if (jCheckBox6.isSelected()) { sabor += "Arándano "; precioSabores += 55; }
-    
-  
+
+    if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += 50; }
+    if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += 60; }
+    if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += 40; }
+    if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += 70; }
+    if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += 65; }
+    if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += 55; }
+
+ 
     String tamaño = "";
     int precioTamaño = 0;
     if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioTamaño = 0; }
@@ -524,54 +637,50 @@ private int contadorPedidos = 1;
         JOptionPane.showMessageDialog(this, "Selecciona un tamaño.");
         return;
     }
-    
-    
+
+   
     String topping = "";
     int precioToppings = 0;
     if (jCheckBox7.isSelected()) { topping += "Oreo "; precioToppings += 15; }
     if (jCheckBox8.isSelected()) { topping += "Chispas "; precioToppings += 10; }
     if (jCheckBox9.isSelected()) { topping += "Frutas "; precioToppings += 20; }
-    
-  
-    int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
-    if (cantidad <= 0) {
-        JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
-        return;
+
+    precioProducto += precioTamaño + precioToppings;
+}
+
+
+int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
+if (cantidad <= 0) {
+    JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
+    return;
+}
+
+
+int subtotal = precioProducto * cantidad;
+
+
+DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
+
+
+int total = 0;
+for (int i = 0; i < jTable1.getRowCount(); i++) {
+    Object valor = jTable1.getValueAt(i, 4);
+    if (valor != null) {
+        total += Integer.parseInt(valor.toString());
     }
-    
-  
-    int subtotal = (precioSabores + precioTamaño + precioToppings) * cantidad;
-    
-   
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.addRow(new Object[]{sabor.trim(), tamaño, topping.trim(), cantidad, subtotal});
-    
-   
-    int total = 0;
-    for (int i = 0; i < jTable1.getRowCount(); i++) {
-        Object valor = jTable1.getValueAt(i, 4);
-        if (valor != null) {
-            total += Integer.parseInt(valor.toString());
-        }
-    }
-    jTextField1.setText(String.valueOf(total));
+}
+jTextField1.setText(String.valueOf(total));
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox7ActionPerformed
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox7ActionPerformed
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
+    }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     /**
      * @param args the command line arguments
