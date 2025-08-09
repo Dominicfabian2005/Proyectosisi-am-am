@@ -31,6 +31,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 
 /**
@@ -519,159 +521,198 @@ private int contadorPedidos = 1;
          
       DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-String sql = "INSERT INTO pedido (cliente, fecha, estado, total) VALUES (?, ?, ?, ?)";
+    String sqlPedido = "INSERT INTO pedido (cliente, fecha, estado, total) VALUES (?, ?, ?, ?)";
+    String sqlDetalle = "INSERT INTO detalle_pedido (id_pedido, producto, cantidad, tamaño, sabor, topping, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-Connection conn = null;
-PreparedStatement ps = null;
+    Connection conn = null;
+    PreparedStatement psPedido = null;
+    PreparedStatement psDetalle = null;
 
-try {
-    conn = (Connection) ConexionDB.conectar();
-    if (conn == null) {
-        JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.");
-        return;
-    }
-
-    ps = conn.prepareStatement(sql);
-
-    String cliente = jTextField2.getText();  
-    String total = jTextField1.getText();   
-    String estado = "pendiente";                
-    java.sql.Date fechaActual = new java.sql.Date(System.currentTimeMillis());
-
-    for (int i = 0; i < model.getRowCount(); i++) {
-      
-
-        ps.setString(1, cliente);
-        ps.setDate(2, fechaActual);
-        ps.setString(3, estado);
-        ps.setString(4, total);
-       
-        ps.executeUpdate();
-    }
-
-    JOptionPane.showMessageDialog(null, "Datos enviados exitosamente.");
-
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Error al insertar datos: " + e.getMessage());
-} finally {
     try {
-        if (ps != null) ps.close();
-        if (conn != null) conn.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
+        conn = ConexionDB.conectar();
 
+        if (conn == null) {
+            JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.");
+            return;
+        }
+
+        conn.setAutoCommit(false); // Iniciar transacción
+
+        // Insertar pedido
+        psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+
+        String cliente = jTextField2.getText();
+        String total = jTextField1.getText();
+        String estado = "pendiente";
+        java.sql.Date fechaActual = new java.sql.Date(System.currentTimeMillis());
+
+        psPedido.setString(1, cliente);
+        psPedido.setDate(2, fechaActual);
+        psPedido.setString(3, estado);
+        psPedido.setString(4, total);
+
+        int affectedRows = psPedido.executeUpdate();
+
+        if (affectedRows == 0) {
+            throw new SQLException("No se pudo insertar el pedido.");
+        }
+
+        // Obtener el id_pedido generado
+        ResultSet generatedKeys = psPedido.getGeneratedKeys();
+        int idPedido = 0;
+        if (generatedKeys.next()) {
+            idPedido = generatedKeys.getInt(1);
+        } else {
+            throw new SQLException("No se pudo obtener el ID del pedido.");
+        }
+
+        // Insertar detalles
+        psDetalle = conn.prepareStatement(sqlDetalle);
+
+      for (int i = 0; i < model.getRowCount(); i++) {
+    String producto = model.getValueAt(i, 0).toString();
+    int cantidad = Integer.parseInt(model.getValueAt(i, 1).toString());
+    String tamaño = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
+    String sabor = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "";
+    String topping = model.getValueAt(i, 4) != null ? model.getValueAt(i, 4).toString() : "";
+    double subtotal = Double.parseDouble(model.getValueAt(i, 5).toString());
+
+    psDetalle.setInt(1, idPedido);
+    psDetalle.setString(2, producto);
+    psDetalle.setInt(3, cantidad);
+    psDetalle.setString(4, tamaño);
+    psDetalle.setString(5, sabor);
+    psDetalle.setString(6, topping);
+    psDetalle.setDouble(7, subtotal);
+
+    psDetalle.executeUpdate();
+}
+        conn.commit(); // Confirmar transacción
+
+        JOptionPane.showMessageDialog(null, "Datos enviados exitosamente.");
+
+    } catch (SQLException e) {
+        try {
+            if (conn != null) {
+                conn.rollback(); // Revertir transacción en error
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        JOptionPane.showMessageDialog(null, "Error al insertar datos: " + e.getMessage());
+    } finally {
+        try {
+            if (psDetalle != null) psDetalle.close();
+            if (psPedido != null) psPedido.close();
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
                
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      int countSabores = 0;
-boolean esPaleta = false;
-String producto = "";
-int precioProducto = 0;
+     int countSabores = 0;
+    boolean esPaleta = false;
+    String producto = "";
+    int precioProducto = 0;
 
-// Sabores (solo si no eligió paleta)
-if (jRadioButton4.isSelected()) { 
-    esPaleta = true; 
-    producto = "frutos del bosque"; 
-    precioProducto = 55; 
-}
-else if (jRadioButton5.isSelected()) { 
-    esPaleta = true; 
-    producto = "Naranja"; 
-    precioProducto = 40; 
-}
-
-
-else if (jRadioButton6.isSelected()){
-     esPaleta = true; 
-    producto = "quiwi"; 
-    precioProducto = 45; 
-}
-else if (jRadioButton7.isSelected()){
-     esPaleta = true; 
-    producto = "sandia"; 
-    precioProducto = 40; 
-}
-else if (jRadioButton8.isSelected()){
-     esPaleta = true; 
-    producto = "limon"; 
-    precioProducto = 40; 
-}
-else if (jRadioButton9.isSelected()){
-     esPaleta = true; 
-    producto = "frutos rojos"; 
-    precioProducto = 55; 
-}
-
-
-else {
-
-    if (jCheckBox1.isSelected()) countSabores++;
-    if (jCheckBox2.isSelected()) countSabores++;
-    if (jCheckBox3.isSelected()) countSabores++;
-    if (jCheckBox4.isSelected()) countSabores++;
-    if (jCheckBox5.isSelected()) countSabores++;
-    if (jCheckBox6.isSelected()) countSabores++;
-
-    if (countSabores > 2) {
-        JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
-        return;
+    // Detectar si es paleta
+    if (jRadioButton4.isSelected()) { 
+        esPaleta = true; 
+        producto = "frutos del bosque"; 
+        precioProducto = 55; 
+    } else if (jRadioButton5.isSelected()) { 
+        esPaleta = true; 
+        producto = "Naranja"; 
+        precioProducto = 40; 
+    } else if (jRadioButton6.isSelected()){
+        esPaleta = true; 
+        producto = "quiwi"; 
+        precioProducto = 45; 
+    } else if (jRadioButton7.isSelected()){
+        esPaleta = true; 
+        producto = "sandia"; 
+        precioProducto = 40; 
+    } else if (jRadioButton8.isSelected()){
+        esPaleta = true; 
+        producto = "limon"; 
+        precioProducto = 40; 
+    } else if (jRadioButton9.isSelected()){
+        esPaleta = true; 
+        producto = "frutos rojos"; 
+        precioProducto = 55; 
     }
 
-    if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += 50; }
-    if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += 60; }
-    if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += 40; }
-    if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += 70; }
-    if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += 65; }
-    if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += 55; }
-
- 
     String tamaño = "";
-    int precioTamaño = 0;
-    if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioTamaño = 0; }
-    else if (jRadioButton2.isSelected()) { tamaño = "Mediano"; precioTamaño = 35; }
-    else if (jRadioButton3.isSelected()) { tamaño = "Grande"; precioTamaño = 50; }
-    else {
-        JOptionPane.showMessageDialog(this, "Selecciona un tamaño.");
+    String topping = "";
+
+    if (!esPaleta) {
+        // Es helado: contar y validar sabores
+        if (jCheckBox1.isSelected()) countSabores++;
+        if (jCheckBox2.isSelected()) countSabores++;
+        if (jCheckBox3.isSelected()) countSabores++;
+        if (jCheckBox4.isSelected()) countSabores++;
+        if (jCheckBox5.isSelected()) countSabores++;
+        if (jCheckBox6.isSelected()) countSabores++;
+
+        if (countSabores > 2) {
+            JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
+            return;
+        }
+
+        if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += 50; }
+        if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += 60; }
+        if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += 40; }
+        if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += 70; }
+        if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += 65; }
+        if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += 55; }
+
+        // Tamaño obligatorio
+        if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
+        else if (jRadioButton2.isSelected()) { tamaño = "Mediano"; precioProducto += 35; }
+        else if (jRadioButton3.isSelected()) { tamaño = "Grande"; precioProducto += 50; }
+        else {
+            JOptionPane.showMessageDialog(this, "Selecciona un tamaño.");
+            return;
+        }
+
+        // Topping opcional
+        if (jCheckBox7.isSelected()) { topping += "Oreo "; precioProducto += 15; }
+        if (jCheckBox8.isSelected()) { topping += "Chispas "; precioProducto += 10; }
+        if (jCheckBox9.isSelected()) { topping += "Frutas "; precioProducto += 20; }
+    }
+
+    int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
+    if (cantidad <= 0) {
+        JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
         return;
     }
 
-   
-    String topping = "";
-    int precioToppings = 0;
-    if (jCheckBox7.isSelected()) { topping += "Oreo "; precioToppings += 15; }
-    if (jCheckBox8.isSelected()) { topping += "Chispas "; precioToppings += 10; }
-    if (jCheckBox9.isSelected()) { topping += "Frutas "; precioToppings += 20; }
+    int subtotal = precioProducto * cantidad;
 
-    precioProducto += precioTamaño + precioToppings;
-}
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-
-int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
-if (cantidad <= 0) {
-    JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
-    return;
-}
-
-
-int subtotal = precioProducto * cantidad;
-
-
-DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
-
-
-int total = 0;
-for (int i = 0; i < jTable1.getRowCount(); i++) {
-    Object valor = jTable1.getValueAt(i, 4);
-    if (valor != null) {
-        total += Integer.parseInt(valor.toString());
+    // Agregar fila con tamaño y topping solo si es helado
+    if (esPaleta) {
+        model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
+    } else {
+        model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
     }
-}
-jTextField1.setText(String.valueOf(total));
 
+    // Actualizar total
+    int total = 0;
+    for (int i = 0; i < jTable1.getRowCount(); i++) {
+        Object valor = jTable1.getValueAt(i, 4);
+        if (valor != null) {
+            total += Integer.parseInt(valor.toString());
+        }
+    }
+    jTextField1.setText(String.valueOf(total));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed

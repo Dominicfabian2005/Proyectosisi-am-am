@@ -273,7 +273,7 @@ private void mostrarProveedores() throws IOException {
                     .addGroup(PedidosLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(355, Short.MAX_VALUE))
+                .addContainerGap(475, Short.MAX_VALUE))
         );
         PedidosLayout.setVerticalGroup(
             PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
