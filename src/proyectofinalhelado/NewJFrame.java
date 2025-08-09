@@ -521,7 +521,7 @@ private int contadorPedidos = 1;
          
       DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-    String sqlPedido = "INSERT INTO pedido (cliente, fecha, estado, total) VALUES (?, ?, ?, ?)";
+    String sqlPedido = "INSERT INTO pedido (cliente, fecha,estado, total) VALUES (?, ?, ?, ?)";
     String sqlDetalle = "INSERT INTO detalle_pedido (id_pedido, producto, cantidad, tamaño, sabor, topping, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     Connection conn = null;
@@ -538,7 +538,7 @@ private int contadorPedidos = 1;
 
         conn.setAutoCommit(false); // Iniciar transacción
 
-        // Insertar pedido
+   
         psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
 
         String cliente = jTextField2.getText();
@@ -557,7 +557,7 @@ private int contadorPedidos = 1;
             throw new SQLException("No se pudo insertar el pedido.");
         }
 
-        // Obtener el id_pedido generado
+        
         ResultSet generatedKeys = psPedido.getGeneratedKeys();
         int idPedido = 0;
         if (generatedKeys.next()) {
@@ -566,27 +566,28 @@ private int contadorPedidos = 1;
             throw new SQLException("No se pudo obtener el ID del pedido.");
         }
 
-        // Insertar detalles
+      
         psDetalle = conn.prepareStatement(sqlDetalle);
 
-      for (int i = 0; i < model.getRowCount(); i++) {
-    String producto = model.getValueAt(i, 0).toString();
-    int cantidad = Integer.parseInt(model.getValueAt(i, 1).toString());
-    String tamaño = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
-    String sabor = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "";
-    String topping = model.getValueAt(i, 4) != null ? model.getValueAt(i, 4).toString() : "";
-    double subtotal = Double.parseDouble(model.getValueAt(i, 5).toString());
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String producto = model.getValueAt(i, 0).toString();
+            int cantidad = Integer.parseInt(model.getValueAt(i, 3).toString());
+            String tamaño = model.getValueAt(i, 1) != null ? model.getValueAt(i, 1).toString() : "";
+            String sabor = ""; 
+            String topping = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
+            double subtotal = Double.parseDouble(model.getValueAt(i, 4).toString()); // columna 4 = subtotal
 
-    psDetalle.setInt(1, idPedido);
-    psDetalle.setString(2, producto);
-    psDetalle.setInt(3, cantidad);
-    psDetalle.setString(4, tamaño);
-    psDetalle.setString(5, sabor);
-    psDetalle.setString(6, topping);
-    psDetalle.setDouble(7, subtotal);
+            psDetalle.setInt(1, idPedido);
+            psDetalle.setString(2, producto);
+            psDetalle.setInt(3, cantidad);
+            psDetalle.setString(4, tamaño);
+            psDetalle.setString(5, sabor);
+            psDetalle.setString(6, topping);
+            psDetalle.setDouble(7, subtotal);
 
-    psDetalle.executeUpdate();
-}
+            psDetalle.executeUpdate();
+        }
+
         conn.commit(); // Confirmar transacción
 
         JOptionPane.showMessageDialog(null, "Datos enviados exitosamente.");
@@ -612,7 +613,6 @@ private int contadorPedidos = 1;
             e.printStackTrace();
         }
     }
-               
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

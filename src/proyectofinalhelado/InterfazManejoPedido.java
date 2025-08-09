@@ -25,6 +25,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
+import javax.swing.Timer;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.*;
+import javax.swing.event.ListSelectionEvent;
+
+
+
 
 /**
  *
@@ -32,14 +42,159 @@ import javax.swing.table.DefaultTableModel;
  */
 public class InterfazManejoPedido extends javax.swing.JFrame {
 
+    
+    private Timer refrescoTimer;
+private final int INTERVALO_MS = 5000;
     /**
      * Creates new form InterfazManejoPedido
      */
     public InterfazManejoPedido() {
         initComponents();
-        
+         configurarSelectionListener();
+    cargarPedidos();        // carga inicial
+    // si quieres cargar detalles del primer pedido por defecto:
+    if (jTablePedidos.getRowCount() > 0) {
+        jTablePedidos.setRowSelectionInterval(0, 0);
+    }
+    iniciarRefrescoAutomatico();
        
     }
+
+    
+    private void cargarPedidos() {
+    DefaultTableModel model = (DefaultTableModel) jTablePedidos.getModel();
+
+    // Guardar id seleccionado actual (si hay)
+    int filaSeleccionada = jTablePedidos.getSelectedRow();
+    int idSeleccionado = -1;
+    if (filaSeleccionada >= 0) {
+        Object val = jTablePedidos.getValueAt(filaSeleccionada, 0);
+        if (val != null) {
+            try { idSeleccionado = Integer.parseInt(val.toString()); } catch (NumberFormatException ex) { idSeleccionado = -1; }
+        }
+    }
+
+    model.setRowCount(0); // limpiar
+
+    String sql = "SELECT id_pedido, cliente, fecha,total, estado FROM pedido ORDER BY id_pedido DESC";
+
+    try (Connection conn = ConexionDB.conectar();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            int idPedido = rs.getInt("id_pedido");
+            String cliente = rs.getString("cliente");
+            Date fecha = rs.getDate("fecha");
+             double total = rs.getDouble("total");
+            String estado = rs.getString("estado");
+
+            model.addRow(new Object[]{idPedido, cliente, fecha,total, estado});
+        }
+
+    } catch (SQLException e) {
+        // Manejo de error
+        System.err.println("Error al cargar pedidos: " + e.getMessage());
+    }
+
+ 
+    if (idSeleccionado != -1) {
+        for (int r = 0; r < jTablePedidos.getRowCount(); r++) {
+            Object v = jTablePedidos.getValueAt(r, 0);
+            if (v != null) {
+                try {
+                    int id = Integer.parseInt(v.toString());
+                    if (id == idSeleccionado) {
+                        jTablePedidos.setRowSelectionInterval(r, r);
+                       
+                        jTablePedidos.scrollRectToVisible(jTablePedidos.getCellRect(r, 0, true));
+                        break;
+                    }
+                } catch (NumberFormatException ex) { /* ignorar */ }
+            }
+        }
+    }
+}
+    
+    
+    
+    private void cargarDetalles(int idPedido) {
+    DefaultTableModel model = (DefaultTableModel) jTableDetalles.getModel();
+    model.setRowCount(0);
+
+    String sql = "SELECT producto, cantidad, tamaño, sabor, topping, subtotal " +
+                 "FROM detalle_pedido WHERE id_pedido = ?";
+
+    try (Connection conn = ConexionDB.conectar();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, idPedido);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String producto = rs.getString("producto");
+                 int cantidad = rs.getInt("cantidad");
+                String tamaño = rs.getString("tamaño");
+                String sabor = rs.getString("sabor");
+                String topping = rs.getString("topping");
+               
+                double subtotal = rs.getDouble("subtotal");
+
+                model.addRow(new Object[]{producto, cantidad, tamaño, sabor, topping, subtotal});
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al cargar detalles: " + e.getMessage());
+    }
+}
+    
+    private void configurarSelectionListener() {
+    jTablePedidos.getSelectionModel().addListSelectionListener((ListSelectionEvent ev) -> {
+        if (!ev.getValueIsAdjusting()) {
+            int fila = jTablePedidos.getSelectedRow();
+            if (fila >= 0) {
+                Object val = jTablePedidos.getValueAt(fila, 0);
+                if (val != null) {
+                    try {
+                        int idPedido = Integer.parseInt(val.toString());
+                        cargarDetalles(idPedido);
+                    } catch (NumberFormatException ex) { /* ignorar */ }
+                }
+            } else {
+               
+                ((DefaultTableModel) jTableDetalles.getModel()).setRowCount(0);
+            }
+        }
+    });
+}
+   private void iniciarRefrescoAutomatico() {
+    if (refrescoTimer != null && refrescoTimer.isRunning()) return;
+
+    refrescoTimer = new Timer(INTERVALO_MS, e -> {
+        // Actualiza pedidos; si hay selección, la restauración ya hará que se vuelvan a cargar los detalles
+        cargarPedidos();
+
+        // Si hay una fila seleccionada actual (después de reload), cargar detalles
+        int fila = jTablePedidos.getSelectedRow();
+        if (fila >= 0) {
+            Object val = jTablePedidos.getValueAt(fila, 0);
+            if (val != null) {
+                try {
+                    int idPedido = Integer.parseInt(val.toString());
+                    cargarDetalles(idPedido);
+                } catch (NumberFormatException ex) { /* ignorar */ }
+            }
+        }
+    });
+
+    refrescoTimer.start();
+}
+
+private void detenerRefrescoAutomatico() {
+    if (refrescoTimer != null) {
+        refrescoTimer.stop();
+    }
+} 
 
 private void mostrarProveedores() throws IOException {
     DefaultTableModel modelo = new DefaultTableModel();
@@ -111,9 +266,9 @@ private void mostrarProveedores() throws IOException {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTablePedidos = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableDetalles = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         Productos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -228,7 +383,7 @@ private void mostrarProveedores() throws IOException {
 
         jButton3.setText("jButton3");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -239,9 +394,9 @@ private void mostrarProveedores() throws IOException {
                 "id", "Cliente", "fecha", "total", "Estado"
             }
         ));
-        jScrollPane5.setViewportView(jTable2);
+        jScrollPane5.setViewportView(jTablePedidos);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableDetalles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -252,7 +407,7 @@ private void mostrarProveedores() throws IOException {
                 "Producto", "cantidad", "Tamano", "Sabor", "Topping", "subtotal"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableDetalles);
 
         javax.swing.GroupLayout PedidosLayout = new javax.swing.GroupLayout(Pedidos);
         Pedidos.setLayout(PedidosLayout);
@@ -411,6 +566,11 @@ private void mostrarProveedores() throws IOException {
         jLabel3.setText("Buscar:");
 
         jButton6.setText("AGREGAR +");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout InventarioLayout = new javax.swing.GroupLayout(Inventario);
         Inventario.setLayout(InventarioLayout);
@@ -633,6 +793,14 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       InterfazAgregarProducto nuevaVentana = new InterfazAgregarProducto();
+    
+    
+    nuevaVentana.setVisible(true);
+    
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -706,9 +874,9 @@ try {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTableDetalles;
+    private javax.swing.JTable jTablePedidos;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
