@@ -33,7 +33,11 @@ import java.awt.event.WindowEvent;
 import java.sql.*;
 import javax.swing.event.ListSelectionEvent;
 
-
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
 /**
@@ -42,7 +46,8 @@ import javax.swing.event.ListSelectionEvent;
  */
 public class InterfazManejoPedido extends javax.swing.JFrame {
 
-    
+   private TableRowSorter<DefaultTableModel> sorterProveedores;
+
     private Timer refrescoTimer;
 private final int INTERVALO_MS = 5000;
     /**
@@ -60,6 +65,8 @@ private final int INTERVALO_MS = 5000;
        
     }
 
+    
+  
     
     private void cargarPedidos() {
     DefaultTableModel model = (DefaultTableModel) jTablePedidos.getModel();
@@ -232,7 +239,8 @@ private void mostrarProveedores() throws IOException {
                 rs.close();
             }
         }
-
+ sorterProveedores = new TableRowSorter<>(modelo);
+        tablaproveedor.setRowSorter(sorterProveedores);
     } catch (SQLException e) {
         System.err.println("Error al cargar proveedores: " + e.getMessage());
     }
@@ -292,7 +300,7 @@ private void mostrarProveedores() throws IOException {
         tablaproveedor = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
         btnagregarprov = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -441,8 +449,8 @@ private void mostrarProveedores() throws IOException {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -647,6 +655,12 @@ private void mostrarProveedores() throws IOException {
         jLabel4.setForeground(new java.awt.Color(204, 153, 255));
         jLabel4.setText("BUSCAR:");
 
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+
         btnagregarprov.setText("MOSTRAR PROVEEDORES");
         btnagregarprov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -665,7 +679,7 @@ private void mostrarProveedores() throws IOException {
                     .addGroup(ProveedoresLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addComponent(jButton7))
                     .addComponent(btnagregarprov))
@@ -679,7 +693,7 @@ private void mostrarProveedores() throws IOException {
                         .addGap(34, 34, 34)
                         .addGroup(ProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProveedoresLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton7)))
@@ -746,7 +760,10 @@ private void mostrarProveedores() throws IOException {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       
+   AgregarProveedor nuevaVentana = new AgregarProveedor();
+    
+    
+    nuevaVentana.setVisible(true);       
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void btnagregarprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarprovActionPerformed
@@ -787,6 +804,8 @@ try {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Error al cargar los productos desde la base de datos.");
 }
+
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -800,6 +819,34 @@ try {
     nuevaVentana.setVisible(true);
     
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    private void filtrar() {
+        String texto = txtBuscar.getText();
+        if (texto.trim().length() == 0) {
+            sorterProveedores.setRowFilter(null);
+        } else {
+            sorterProveedores.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
+});
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -879,8 +926,8 @@ try {
     private javax.swing.JTable jTablePedidos;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tablaproveedor;
     private javax.swing.JTable tableproductos;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
