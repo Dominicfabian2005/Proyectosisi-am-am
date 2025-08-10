@@ -92,7 +92,7 @@ public class InterfazAgregarProducto extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paleta", "Tarro  pequeño", "Tarro mediano", "Tarro grande", "Cono", "Topping oreo", "Topping chispas", "Topping frutas", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paleta frutos del bosque", "Paleta naranja", "paleta quiwi", "paleta sandia", "paleta limon", "paleta frutos rojos", "Tarro helado vainilla 5L", "Tarro helado chocolate 5L", "tarro helado fresa 5L", "Tarro helado pistacho 5L", "Tarro ron pasas 5L", "Tarro arandano 5L", "Cono", "Topping oreo", "Topping chispas", "Topping frutas", " " }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255)));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

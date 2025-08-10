@@ -47,7 +47,7 @@ import javax.swing.event.DocumentListener;
 public class InterfazManejoPedido extends javax.swing.JFrame {
 
    private TableRowSorter<DefaultTableModel> sorterProveedores;
-
+private TableRowSorter<DefaultTableModel> sorterProductos;
     private Timer refrescoTimer;
 private final int INTERVALO_MS = 5000;
     /**
@@ -283,9 +283,9 @@ private void mostrarProveedores() throws IOException {
         tableproductos = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        txtBuscarProducto = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         Inventario = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -501,6 +501,12 @@ private void mostrarProveedores() throws IOException {
             }
         });
 
+        txtBuscarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarProductoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ProductosLayout = new javax.swing.GroupLayout(Productos);
         Productos.setLayout(ProductosLayout);
         ProductosLayout.setHorizontalGroup(
@@ -511,17 +517,17 @@ private void mostrarProveedores() throws IOException {
             .addGroup(ProductosLayout.createSequentialGroup()
                 .addGroup(ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ProductosLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ProductosLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95)
+                        .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))))
+                            .addComponent(jButton4)))
+                    .addGroup(ProductosLayout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ProductosLayout.setVerticalGroup(
@@ -530,15 +536,15 @@ private void mostrarProveedores() throws IOException {
                 .addGap(25, 25, 25)
                 .addGroup(ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8)
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -798,9 +804,13 @@ try {
             
             tableproductos.setModel(model);
             
+            
+            sorterProductos = new TableRowSorter<>(model);
+            tableproductos.setRowSorter(sorterProductos);
             rs.close();
         }
     }
+    
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Error al cargar los productos desde la base de datos.");
 }
@@ -847,6 +857,34 @@ try {
     }
 });
     }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void txtBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarProductoActionPerformed
+    txtBuscarProducto.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        filtrar();
+    }
+
+    private void filtrar() {
+        String texto = txtBuscarProducto.getText();
+        if (texto.trim().length() == 0) {
+            sorterProductos.setRowFilter(null);
+        } else {
+            sorterProductos.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
+});
+    }//GEN-LAST:event_txtBuscarProductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -924,10 +962,10 @@ try {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTableDetalles;
     private javax.swing.JTable jTablePedidos;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tablaproveedor;
     private javax.swing.JTable tableproductos;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtBuscarProducto;
     // End of variables declaration//GEN-END:variables
 }
