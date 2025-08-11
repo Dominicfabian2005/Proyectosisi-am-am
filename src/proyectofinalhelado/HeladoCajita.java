@@ -18,7 +18,7 @@ public class HeladoCajita extends Producto {
         this.tamanio = tamanio;
     }
 
-    @Override
+   
     public double calcularPrecioFinal() {
         double precioAdicional = 0.0;
         if (this.tamanio.equals("Grande")) {

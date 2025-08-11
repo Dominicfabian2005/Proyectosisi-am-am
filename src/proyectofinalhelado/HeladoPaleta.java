@@ -17,7 +17,7 @@ public class HeladoPaleta extends Producto {
         this.tipoBase = tipoBase;
     }
 
-    @Override
+    
     public double calcularPrecioFinal() {
         double precioFinal = getPrecio();
         if (this.tipoBase.equals("Crema")) {

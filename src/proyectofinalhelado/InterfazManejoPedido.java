@@ -31,6 +31,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 
 import javax.swing.RowFilter;
@@ -38,6 +41,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableColumn;
 
 
 /**
@@ -62,6 +67,32 @@ private final int INTERVALO_MS = 5000;
         jTablePedidos.setRowSelectionInterval(0, 0);
     }
     iniciarRefrescoAutomatico();
+    
+    
+    TableColumn colEstado = jTablePedidos.getColumnModel().getColumn(4);
+        JComboBox<String> comboEstado = new JComboBox<>(new String[]{"Pendiente", "Procesando", "Entregado"});
+        colEstado.setCellEditor(new DefaultCellEditor(comboEstado));
+        
+        
+ DefaultTableModel modelo = (DefaultTableModel) jTablePedidos.getModel();
+
+modelo.addTableModelListener(e -> {
+    if (e.getType() == TableModelEvent.UPDATE) {
+        int fila = e.getFirstRow();
+        int columna = e.getColumn();
+
+        // Cambia 4 por el índice correcto en tu modelo
+        if (columna == 4) {
+            String nuevoEstado = modelo.getValueAt(fila, columna).toString();
+            int idPedido = Integer.parseInt(modelo.getValueAt(fila, 0).toString());
+
+            // Actualizar en la BD
+            actualizarEstadoEnBD(idPedido, nuevoEstado);
+
+           
+        }
+    }
+});
        
     }
 
@@ -83,8 +114,11 @@ private final int INTERVALO_MS = 5000;
 
     model.setRowCount(0); // limpiar
 
-    String sql = "SELECT id_pedido, cliente, fecha,total, estado FROM pedido ORDER BY id_pedido DESC";
-
+    String sql = "SELECT id_pedido, cliente, fecha, total, estado " +
+             "FROM pedido " +
+             "WHERE estado IN ('Pendiente', 'Procesando') " +
+             "ORDER BY id_pedido DESC";
+    
     try (Connection conn = ConexionDB.conectar();
          PreparedStatement ps = conn.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
@@ -97,6 +131,8 @@ private final int INTERVALO_MS = 5000;
             String estado = rs.getString("estado");
 
             model.addRow(new Object[]{idPedido, cliente, fecha,total, estado});
+            
+         
         }
 
     } catch (SQLException e) {
@@ -122,6 +158,7 @@ private final int INTERVALO_MS = 5000;
         }
     }
 }
+    
     
     
     
@@ -202,6 +239,33 @@ private void detenerRefrescoAutomatico() {
         refrescoTimer.stop();
     }
 } 
+
+
+
+private boolean actualizarEstadoEnBD(int idPedido, String nuevoEstado) {
+    String sql = "UPDATE pedido SET estado = ? WHERE id_pedido = ?";
+    try (Connection con = ConexionDB.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, nuevoEstado);
+        ps.setInt(2, idPedido);
+        int filas = ps.executeUpdate();
+        return filas > 0;
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar estado: " + ex.getMessage());
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 private void mostrarProveedores() throws IOException {
     DefaultTableModel modelo = new DefaultTableModel();
@@ -401,7 +465,15 @@ private void mostrarProveedores() throws IOException {
             new String [] {
                 "id", "Cliente", "fecha", "total", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(jTablePedidos);
 
         jTableDetalles.setModel(new javax.swing.table.DefaultTableModel(
@@ -414,7 +486,15 @@ private void mostrarProveedores() throws IOException {
             new String [] {
                 "Producto", "cantidad", "Tamano", "Sabor", "Topping", "subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTableDetalles);
 
         javax.swing.GroupLayout PedidosLayout = new javax.swing.GroupLayout(Pedidos);
@@ -819,7 +899,11 @@ try {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+         AgregarProducto nuevaVentana = new AgregarProducto();
+    
+    
+    nuevaVentana.setVisible(true);
+    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

@@ -208,7 +208,7 @@ private int contadorPedidos = 1;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background.setBackground(new java.awt.Color(255, 255, 255));
-        background.setPreferredSize(new java.awt.Dimension(560, 5000));
+        background.setPreferredSize(new java.awt.Dimension(560, 3700));
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 102));
@@ -250,7 +250,7 @@ private int contadorPedidos = 1;
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 1080, 340, 230));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 1020, 340, 230));
 
         jTextField1.setForeground(new java.awt.Color(153, 0, 0));
         jTextField1.setEnabled(false);
@@ -270,7 +270,7 @@ private int contadorPedidos = 1;
                 jButton2ActionPerformed(evt);
             }
         });
-        background.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 1400, -1, -1));
+        background.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 1440, -1, -1));
 
         jSeparator6.setForeground(new java.awt.Color(255, 153, 102));
         background.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 1280, 460, 20));
@@ -281,14 +281,14 @@ private int contadorPedidos = 1;
         jLabel17.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 153, 102));
         jLabel17.setText("NOMBRE:");
-        background.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 1370, -1, -1));
+        background.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 1390, -1, -1));
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-        background.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 1360, 240, -1));
+        background.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 1390, 240, -1));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 153, 102));
         jTabbedPane1.setForeground(new java.awt.Color(0, 0, 0));
@@ -1041,7 +1041,7 @@ private int contadorPedidos = 1;
         jLabel11.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 153, 102));
         jLabel11.setText("Tu lista de pedidos agregados");
-        background.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 1030, -1, -1));
+        background.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 990, -1, -1));
 
         jScrollPane2.setViewportView(background);
 
@@ -1056,10 +1056,10 @@ private int contadorPedidos = 1;
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 2323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 2028, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();

@@ -14,7 +14,7 @@ public class HeladoCono extends Producto {
         this.sabor = sabor;
     }
 
-    @Override
+
     public double calcularPrecioFinal() {
         double precioAdicional = 0.0;
         if (this.tipoCono.equals("Waffle")) {
