@@ -10,28 +10,9 @@ package proyectofinalhelado;
  */
 
 
-public class HeladoCajita extends Producto {
-    private String tamanio; // Atributo específico
+public class HeladoCajita  {
+    
 
-    public HeladoCajita(int id, String nombre, double precio, int proveedor, String tamanio) {
-        super(id, nombre, precio, proveedor);
-        this.tamanio = tamanio;
-    }
-
+    
    
-    public double calcularPrecioFinal() {
-        double precioAdicional = 0.0;
-        if (this.tamanio.equals("Grande")) {
-            precioAdicional = 1.25;
-        }
-        return getPrecio() + precioAdicional;
-    }
-
-    public String getTamanio() {
-        return tamanio;
-    }
-
-    public void setTamanio(String tamanio) {
-        this.tamanio = tamanio;
-    }
 }

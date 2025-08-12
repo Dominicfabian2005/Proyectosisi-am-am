@@ -29,7 +29,7 @@ import proyectofinalhelado.Pedido;
 import proyectofinalhelado.PedidoDao;
 import proyectofinalhelado.PedidoDao;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.DriverManager;
@@ -37,7 +37,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import proyectofinalhelado.OrdenPreview;
+import java.sql.Connection;
 
 
 /**
@@ -129,7 +129,7 @@ private final List<Pedido> listaPedidos = new ArrayList<>();
 private int contadorPedidos = 1;
 
 
-private int obtenerPrecioDesdeDB(Connection con, String nombreProducto) throws SQLException {
+public static int obtenerPrecioDesdeDB(Connection con, String nombreProducto) throws SQLException {
     int precio = 0;
     String sql = "SELECT precio FROM producto WHERE nombre = ?";
     PreparedStatement ps = con.prepareStatement(sql);
@@ -236,7 +236,7 @@ private void limpiarCampos() {
         jSpinner1 = new javax.swing.JSpinner();
         jSeparator13 = new javax.swing.JSeparator();
         jSeparator14 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        btnañadir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jCheckBox10 = new javax.swing.JCheckBox();
@@ -489,13 +489,13 @@ private void limpiarCampos() {
         jLabel10.setForeground(new java.awt.Color(255, 153, 102));
         jLabel10.setText("CANTIDAD: ");
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 153, 102));
-        jButton1.setText("Añadir al pedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnañadir.setBackground(new java.awt.Color(204, 204, 255));
+        btnañadir.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        btnañadir.setForeground(new java.awt.Color(255, 153, 102));
+        btnañadir.setText("Añadir al pedido");
+        btnañadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnañadirActionPerformed(evt);
             }
         });
 
@@ -579,7 +579,7 @@ private void limpiarCampos() {
                                     .addComponent(jRadioButton3)))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(137, 137, 137)
-                        .addComponent(jButton1))
+                        .addComponent(btnañadir))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(129, 129, 129)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -648,7 +648,7 @@ private void limpiarCampos() {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnañadir)
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -1295,7 +1295,7 @@ private void limpiarCampos() {
     
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnañadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnañadirActionPerformed
       int countSabores = 0;
     boolean esPaleta = false;
     String producto = "";
@@ -1331,55 +1331,55 @@ private void limpiarCampos() {
             precioProducto = obtenerPrecioDesdeDB(con, producto);
         } else {
             // Helado: contar y validar sabores
-            if (jCheckBox1.isSelected()) countSabores++;
-            if (jCheckBox2.isSelected()) countSabores++;
-            if (jCheckBox3.isSelected()) countSabores++;
-            if (jCheckBox4.isSelected()) countSabores++;
-            if (jCheckBox5.isSelected()) countSabores++;
-            if (jCheckBox6.isSelected()) countSabores++;
+            if (jCheckBox10.isSelected()) countSabores++;
+            if (jCheckBox11.isSelected()) countSabores++;
+            if (jCheckBox12.isSelected()) countSabores++;
+            if (jCheckBox13.isSelected()) countSabores++;
+            if (jCheckBox14.isSelected()) countSabores++;
+            if (jCheckBox15.isSelected()) countSabores++;
 
             if (countSabores > 2) {
                 JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
                 return;
             }
 
-            if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += obtenerPrecioDesdeDB(con, "Vainilla"); }
-            if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += obtenerPrecioDesdeDB(con, "Chocolate"); }
-            if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += obtenerPrecioDesdeDB(con, "Fresa"); }
-            if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += obtenerPrecioDesdeDB(con, "Pistacho"); }
-            if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += obtenerPrecioDesdeDB(con, "Ron pasa"); }
-            if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += obtenerPrecioDesdeDB(con, "Arándano"); }
+            if (jCheckBox10.isSelected()) { producto += "Vainilla "; precioProducto += obtenerPrecioDesdeDB(con, "Vainilla"); }
+            if (jCheckBox11.isSelected()) { producto += "Chocolate "; precioProducto += obtenerPrecioDesdeDB(con, "Chocolate"); }
+            if (jCheckBox12.isSelected()) { producto += "Fresa "; precioProducto += obtenerPrecioDesdeDB(con, "Fresa"); }
+            if (jCheckBox13.isSelected()) { producto += "Pistacho "; precioProducto += obtenerPrecioDesdeDB(con, "Pistacho"); }
+            if (jCheckBox14.isSelected()) { producto += "Ron pasa "; precioProducto += obtenerPrecioDesdeDB(con, "Ron pasa"); }
+            if (jCheckBox15.isSelected()) { producto += "Arándano "; precioProducto += obtenerPrecioDesdeDB(con, "Arándano"); }
 
            
-           if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
-        else if (jRadioButton2.isSelected()) { tamaño = "Mediano"; precioProducto += 35; }
-        else if (jRadioButton3.isSelected()) { tamaño = "Grande"; precioProducto += 50; }
+           if (jRadioButton10.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
+        else if (jRadioButton11.isSelected()) { tamaño = "Mediano"; precioProducto += 35; }
+        else if (jRadioButton12.isSelected()) { tamaño = "Grande"; precioProducto += 50; }
         else {
-            JOptionPane.showMessageDialog(this, "Selecciona la cantidad de pintas porfavor.");
+            JOptionPane.showMessageDialog(this, "Selecciona un tamaño.");
             return;
         }
 
             // Topping opcional
-            if (jCheckBox7.isSelected()) { topping += "Oreo "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Oreo"); }
-            if (jCheckBox8.isSelected()) { topping += "Chispas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Chispas"); }
-            if (jCheckBox9.isSelected()) { topping += "Frutas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Frutas"); }
+            if (jCheckBox16.isSelected()) { topping += "Oreo "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Oreo"); }
+            if (jCheckBox17.isSelected()) { topping += "Chispas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Chispas"); }
+            if (jCheckBox18.isSelected()) { topping += "Frutas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Frutas"); }
         }
 
         // Cantidad
-        int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
+        int cantidad = Integer.parseInt(jSpinner3.getValue().toString());
         if (cantidad <= 0) {
             JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
             return;
         }
 
-        
+        // Calcular subtotal
         int subtotal = precioProducto * cantidad;
 
-       
+        // Agregar fila
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         if (esPaleta) {
             model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
-            
+            // Restar inventario si es paleta
             restarInventario(con, producto, cantidad);
         } else {
             model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
@@ -1397,14 +1397,20 @@ private void limpiarCampos() {
 
         // Limpiar selección
         limpiarCampos();
-        
+        jSpinner1.setValue(1);
+        jSpinner2.setValue(1);
+        jSpinner3.setValue(1);
 
     } catch (Exception e) {
+        e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error al procesar el pedido: " + e.getMessage());
     }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+
+
+    }//GEN-LAST:event_btnañadirActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
@@ -1657,10 +1663,10 @@ new NewJFrame().setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnañadir;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

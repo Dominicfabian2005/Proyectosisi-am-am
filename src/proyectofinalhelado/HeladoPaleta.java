@@ -4,34 +4,22 @@
  */
 package proyectofinalhelado;
 
+import com.sun.jdi.connect.spi.Connection;
+import java.sql.SQLException;
 /**
  *
  * @author 20242260
  */
 
 public class HeladoPaleta extends Producto {
-    private String tipoBase; // Atributo específico
-
-    public HeladoPaleta(int id, String nombre, double precio, int proveedor, String tipoBase) {
-        super(id, nombre, precio, proveedor);
-        this.tipoBase = tipoBase;
+   public HeladoPaleta(String sabor, int cantidad) {
+        super(sabor, cantidad);
     }
 
-    
-    public double calcularPrecioFinal() {
-        double precioFinal = getPrecio();
-        if (this.tipoBase.equals("Crema")) {
-            precioFinal += 0.75;
-        }
-        return precioFinal;
-    }
-
-    public String getTipoBase() {
-        return tipoBase;
-    }
-
-    public void setTipoBase(String tipoBase) {
-        this.tipoBase = tipoBase;
+    @Override
+    public int calcularPrecio(Connection con) throws SQLException {
+      
+        return NewJFrame.obtenerPrecioDesdeDB((java.sql.Connection) con, nombre) * cantidad;
     }
 }
 

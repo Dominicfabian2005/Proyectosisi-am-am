@@ -4,62 +4,43 @@
  */
 package proyectofinalhelado;
 
+import com.sun.jdi.connect.spi.Connection;
+import java.sql.SQLException;
+
 /**
  *
  * @author domif
  */
 
-   public class Producto {
-    private int id;
-    private String nombre;
-    private double precio;
- private int proveedor;
+   public  abstract class Producto {
+  
+    protected String nombre;
+    protected int cantidad;
 
+    public abstract int calcularPrecio(Connection con) throws SQLException;
+    
     public Producto() {
     }
 
-    public Producto(int id, String nombre, double precio, int proveedor) {
-        this.id = id;
+    public Producto(String nombre, int cantidad) {
         this.nombre = nombre;
-        this.precio = precio;
-        this.proveedor = proveedor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.cantidad = cantidad;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public double getPrecio() {
-        return precio;
+    int calcularPrecio(java.sql.Connection con) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(int proveedor) {
-        this.proveedor = proveedor;
-    }
     
- 
- 
- 
- 
+
+  
 } 
 

@@ -35,9 +35,14 @@ public class PedidoDao {
         try (Connection con = ConexionDB.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idPedido);
-            ps.setString(2, detalle.getProducto().getNombre());
-            ps.setInt(3, detalle.getCantidad());
-            ps.setDouble(4, detalle.getProducto().getPrecio());
+           // ps.setString(2, detalle.getProducto().getNombre());
+           // ps.setInt(3, detalle.getCantidad());
+            
+            
+          //  ps.setDouble(4, detalle.getProducto().getPrecio());
+          
+          
+          
             ps.executeUpdate();
         }
     }

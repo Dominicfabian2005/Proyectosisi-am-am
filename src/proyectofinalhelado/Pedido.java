@@ -44,7 +44,7 @@ public class Pedido {
         double total;
         total = 0;
         for (DetallePedido detalle : detalles) {
-            total += detalle.calcularSubtotal();
+         //   total += detalle.calcularSubtotal();
         }
         this.total = total;
         return total;
