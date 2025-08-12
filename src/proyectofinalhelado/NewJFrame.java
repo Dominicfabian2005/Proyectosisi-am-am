@@ -1290,9 +1290,7 @@ private void limpiarCampos() {
 
     JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INFORMATION_MESSAGE);
 
-      OrdenPreview nuevaVentana = new OrdenPreview();
     
-    nuevaVentana.setVisible(true);
     
     
     }//GEN-LAST:event_jButton2ActionPerformed
