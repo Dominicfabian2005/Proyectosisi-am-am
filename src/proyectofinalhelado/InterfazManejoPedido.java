@@ -334,13 +334,12 @@ private void mostrarProveedores() throws IOException {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         Pedidos = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTablePedidos = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDetalles = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         Productos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -432,11 +431,11 @@ private void mostrarProveedores() throws IOException {
                 .addComponent(btnproducto)
                 .addGap(57, 57, 57)
                 .addComponent(btninventario)
-                .addGap(56, 56, 56)
+                .addGap(76, 76, 76)
                 .addComponent(btnproveedores)
                 .addGap(64, 64, 64)
                 .addComponent(jButton5)
-                .addContainerGap(218, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 130, 640));
@@ -448,12 +447,6 @@ private void mostrarProveedores() throws IOException {
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         Pedidos.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-
-        jButton2.setText("jButton2");
-
-        jButton3.setText("jButton3");
 
         jTablePedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -497,6 +490,14 @@ private void mostrarProveedores() throws IOException {
         });
         jScrollPane1.setViewportView(jTableDetalles);
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel5.setText("MANEJO DE PEDIDOS");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel6.setText("DETALLES DEL PEDIDO SELECCIONADO");
+
         javax.swing.GroupLayout PedidosLayout = new javax.swing.GroupLayout(Pedidos);
         Pedidos.setLayout(PedidosLayout);
         PedidosLayout.setHorizontalGroup(
@@ -504,33 +505,31 @@ private void mostrarProveedores() throws IOException {
             .addGroup(PedidosLayout.createSequentialGroup()
                 .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PedidosLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1)
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton2)
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton3))
-                    .addGroup(PedidosLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PedidosLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(475, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PedidosLayout.createSequentialGroup()
+                        .addGap(174, 174, 174)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PedidosLayout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(521, Short.MAX_VALUE))
         );
         PedidosLayout.setVerticalGroup(
             PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PedidosLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -680,7 +679,7 @@ private void mostrarProveedores() throws IOException {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
+                        .addGap(86, 86, 86)
                         .addComponent(jButton6))
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(69, Short.MAX_VALUE))
@@ -688,12 +687,16 @@ private void mostrarProveedores() throws IOException {
         InventarioLayout.setVerticalGroup(
             InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InventarioLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
-                .addGap(13, 13, 13)
+                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(InventarioLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(InventarioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton6)))
+                .addGap(14, 14, 14)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1015,9 +1018,6 @@ try {
     private javax.swing.JButton btnpedido;
     private javax.swing.JButton btnproducto;
     private javax.swing.JButton btnproveedores;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1027,6 +1027,8 @@ try {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;

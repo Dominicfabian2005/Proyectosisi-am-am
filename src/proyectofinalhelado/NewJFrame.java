@@ -9,6 +9,8 @@ package proyectofinalhelado;
 import java.sql.Connection;
 
 import conexionBD.ConexionDB;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +35,9 @@ import java.util.logging.Logger;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import proyectofinalhelado.OrdenPreview;
 
 
 /**
@@ -59,7 +64,39 @@ model.setRowCount(0);
     }
    
 
+private String generarFactura(String cliente) {
+    StringBuilder factura = new StringBuilder();
+    factura.append("---------------------------------------\n");
+    factura.append("       HELADERÍA \"BLIZZ\"\n");
+    factura.append("---------------------------------------\n\n");
 
+    factura.append("Cliente: ").append(cliente).append("    ");
+    factura.append("Fecha: ").append(java.time.LocalDate.now().toString()).append("\n\n");
+
+   
+
+    factura.append("-------------------------------------------------------\n");
+    factura.append(String.format("%-20s %5s %15s %12s\n", "Producto", "Cant.", "Precio Unit.", "Subtotal"));
+    factura.append("-------------------------------------------------------\n");
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    int total = 0;
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String producto = model.getValueAt(i, 0).toString();
+        int cantidad = Integer.parseInt(model.getValueAt(i, 3).toString());
+        int subtotal = Integer.parseInt(model.getValueAt(i, 4).toString());
+        int precioUnit = subtotal / cantidad;
+
+        factura.append(String.format("%-20s %5d %15s %12s\n", producto, cantidad, "RD$ " + precioUnit, "RD$ " + subtotal));
+    }
+
+    factura.append("-------------------------------------------------------\n");
+    factura.append(String.format("%48s %12s\n", "Total:", "RD$ " + jTextField1.getText()));
+    factura.append("-------------------------------------------------------\n\n");
+    factura.append("¡Gracias por preferirnos!\n");
+
+    return factura.toString();
+}
     private void agregarEventoEliminarArticulo() {
     jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
@@ -90,6 +127,57 @@ private final List<Pedido> listaPedidos = new ArrayList<>();
 
 // Contador para asignar IDs únicos a cada pedido
 private int contadorPedidos = 1;
+
+
+private int obtenerPrecioDesdeDB(Connection con, String nombreProducto) throws SQLException {
+    int precio = 0;
+    String sql = "SELECT precio FROM producto WHERE nombre = ?";
+    PreparedStatement ps = con.prepareStatement(sql);
+    ps.setString(1, nombreProducto);
+    ResultSet rs = ps.executeQuery();
+    if (rs.next()) {
+        precio = rs.getInt("precio");
+    }
+    return precio;
+}
+
+private void restarInventario(Connection con, String nombreProducto, int cantidad) throws SQLException {
+    String sql = "UPDATE producto SET stock = stock - ? WHERE nombre = ?";
+    PreparedStatement ps = con.prepareStatement(sql);
+    ps.setInt(1, cantidad);
+    ps.setString(2, nombreProducto);
+    ps.executeUpdate();
+}
+
+private void limpiarCampos() {
+    buttonGroup1.clearSelection();
+    jCheckBox1.setSelected(false);
+    jCheckBox2.setSelected(false);
+    jCheckBox3.setSelected(false);
+    jCheckBox4.setSelected(false);
+    jCheckBox5.setSelected(false);
+    jCheckBox6.setSelected(false);
+    buttonGroup1.clearSelection();
+    jCheckBox7.setSelected(false);
+    jCheckBox8.setSelected(false);
+    jCheckBox9.setSelected(false);
+    jSpinner1.setValue(1);
+    
+    jCheckBox10.setSelected(false);
+    jCheckBox11.setSelected(false);
+    jCheckBox12.setSelected(false);
+    jCheckBox13.setSelected(false);
+    jCheckBox14.setSelected(false);
+    jCheckBox15.setSelected(false);
+    buttonGroup2.clearSelection();
+    jCheckBox16.setSelected(false);
+    jCheckBox17.setSelected(false);
+    jCheckBox18.setSelected(false);
+    jSpinner3.setValue(1);
+    
+    buttonGroup2.clearSelection();
+    jSpinner2.setValue(1);
+}
 
 
     @SuppressWarnings("unchecked")
@@ -203,6 +291,8 @@ private int contadorPedidos = 1;
         jButton3 = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
+        jSeparator8 = new javax.swing.JSeparator();
+        jSeparator9 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -976,12 +1066,14 @@ private int contadorPedidos = 1;
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)))
+                            .addComponent(jButton3)
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(130, 130, 130)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
+            .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1012,13 +1104,17 @@ private int contadorPedidos = 1;
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel26)
                             .addComponent(jLabel25))))
-                .addGap(92, 92, 92)
+                .addGap(53, 53, 53)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(9, 9, 9)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1029,9 +1125,7 @@ private int contadorPedidos = 1;
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("HELADO PALETA", jPanel4);
@@ -1183,127 +1277,135 @@ private int contadorPedidos = 1;
             e.printStackTrace();
         }
     }
+      String cliente = jTextField1.getText(); 
+    
+
+    String facturaTexto = generarFactura(cliente);
+
+    JTextArea areaFactura = new JTextArea(facturaTexto);
+    areaFactura.setEditable(false);
+    areaFactura.setFont(new Font("Monospaced", Font.PLAIN, 12));
+    JScrollPane scroll = new JScrollPane(areaFactura);
+    scroll.setPreferredSize(new Dimension(500, 400));
+
+    JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INFORMATION_MESSAGE);
+
+      OrdenPreview nuevaVentana = new OrdenPreview();
+    
+    nuevaVentana.setVisible(true);
+    
+    
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     int countSabores = 0;
+      int countSabores = 0;
     boolean esPaleta = false;
     String producto = "";
     int precioProducto = 0;
-
-    // Detectar si es paleta
-    if (jRadioButton4.isSelected()) { 
-        esPaleta = true; 
-        producto = "frutos del bosque"; 
-        precioProducto = 55; 
-    } else if (jRadioButton5.isSelected()) { 
-        esPaleta = true; 
-        producto = "Naranja"; 
-        precioProducto = 40; 
-    } else if (jRadioButton6.isSelected()){
-        esPaleta = true; 
-        producto = "quiwi"; 
-        precioProducto = 45; 
-    } else if (jRadioButton7.isSelected()){
-        esPaleta = true; 
-        producto = "sandia"; 
-        precioProducto = 40; 
-    } else if (jRadioButton8.isSelected()){
-        esPaleta = true; 
-        producto = "limon"; 
-        precioProducto = 40; 
-    } else if (jRadioButton9.isSelected()){
-        esPaleta = true; 
-        producto = "frutos rojos"; 
-        precioProducto = 55; 
-    }
-
     String tamaño = "";
     String topping = "";
 
-    if (!esPaleta) {
-        // Es helado: contar y validar sabores
-        if (jCheckBox1.isSelected()) countSabores++;
-        if (jCheckBox2.isSelected()) countSabores++;
-        if (jCheckBox3.isSelected()) countSabores++;
-        if (jCheckBox4.isSelected()) countSabores++;
-        if (jCheckBox5.isSelected()) countSabores++;
-        if (jCheckBox6.isSelected()) countSabores++;
+    try (Connection con = ConexionDB.conectar()) {
 
-        if (countSabores > 2) {
-            JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
-            return;
+      
+        if (jRadioButton4.isSelected()) { 
+            esPaleta = true; 
+            producto = "frutos del bosque"; 
+        } else if (jRadioButton5.isSelected()) { 
+            esPaleta = true; 
+            producto = "Naranja"; 
+        } else if (jRadioButton6.isSelected()){
+            esPaleta = true; 
+            producto = "Kiwi"; 
+        } else if (jRadioButton7.isSelected()){
+            esPaleta = true; 
+            producto = "Sandía"; 
+        } else if (jRadioButton8.isSelected()){
+            esPaleta = true; 
+            producto = "Limón"; 
+        } else if (jRadioButton9.isSelected()){
+            esPaleta = true; 
+            producto = "Frutos rojos"; 
         }
 
-        if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += 50; }
-        if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += 60; }
-        if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += 40; }
-        if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += 70; }
-        if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += 65; }
-        if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += 55; }
+        
+        if (esPaleta) {
+            precioProducto = obtenerPrecioDesdeDB(con, producto);
+        } else {
+            // Helado: contar y validar sabores
+            if (jCheckBox1.isSelected()) countSabores++;
+            if (jCheckBox2.isSelected()) countSabores++;
+            if (jCheckBox3.isSelected()) countSabores++;
+            if (jCheckBox4.isSelected()) countSabores++;
+            if (jCheckBox5.isSelected()) countSabores++;
+            if (jCheckBox6.isSelected()) countSabores++;
 
-        // Tamaño obligatorio
-        if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
+            if (countSabores > 2) {
+                JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
+                return;
+            }
+
+            if (jCheckBox1.isSelected()) { producto += "Vainilla "; precioProducto += obtenerPrecioDesdeDB(con, "Vainilla"); }
+            if (jCheckBox2.isSelected()) { producto += "Chocolate "; precioProducto += obtenerPrecioDesdeDB(con, "Chocolate"); }
+            if (jCheckBox3.isSelected()) { producto += "Fresa "; precioProducto += obtenerPrecioDesdeDB(con, "Fresa"); }
+            if (jCheckBox4.isSelected()) { producto += "Pistacho "; precioProducto += obtenerPrecioDesdeDB(con, "Pistacho"); }
+            if (jCheckBox5.isSelected()) { producto += "Ron pasa "; precioProducto += obtenerPrecioDesdeDB(con, "Ron pasa"); }
+            if (jCheckBox6.isSelected()) { producto += "Arándano "; precioProducto += obtenerPrecioDesdeDB(con, "Arándano"); }
+
+           
+           if (jRadioButton1.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
         else if (jRadioButton2.isSelected()) { tamaño = "Mediano"; precioProducto += 35; }
         else if (jRadioButton3.isSelected()) { tamaño = "Grande"; precioProducto += 50; }
         else {
-            JOptionPane.showMessageDialog(this, "Selecciona un tamaño.");
+            JOptionPane.showMessageDialog(this, "Selecciona la cantidad de pintas porfavor.");
             return;
         }
 
-        // Topping opcional
-        if (jCheckBox7.isSelected()) { topping += "Oreo "; precioProducto += 15; }
-        if (jCheckBox8.isSelected()) { topping += "Chispas "; precioProducto += 10; }
-        if (jCheckBox9.isSelected()) { topping += "Frutas "; precioProducto += 20; }
-    }
-
-    int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
-    if (cantidad <= 0) {
-        JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
-        return;
-    }
-
-    int subtotal = precioProducto * cantidad;
-
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-    // Agregar fila con tamaño y topping solo si es helado
-    if (esPaleta) {
-        model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
-    } else {
-        model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
-    }
-
-    // Actualizar total
-    int total = 0;
-    for (int i = 0; i < jTable1.getRowCount(); i++) {
-        Object valor = jTable1.getValueAt(i, 4);
-        if (valor != null) {
-            total += Integer.parseInt(valor.toString());
+            // Topping opcional
+            if (jCheckBox7.isSelected()) { topping += "Oreo "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Oreo"); }
+            if (jCheckBox8.isSelected()) { topping += "Chispas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Chispas"); }
+            if (jCheckBox9.isSelected()) { topping += "Frutas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Frutas"); }
         }
+
+        // Cantidad
+        int cantidad = Integer.parseInt(jSpinner1.getValue().toString());
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
+            return;
+        }
+
+        
+        int subtotal = precioProducto * cantidad;
+
+       
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if (esPaleta) {
+            model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
+            
+            restarInventario(con, producto, cantidad);
+        } else {
+            model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
+        }
+
+        // Actualizar total
+        int total = 0;
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Object valor = jTable1.getValueAt(i, 4);
+            if (valor != null) {
+                total += Integer.parseInt(valor.toString());
+            }
+        }
+        jTextField1.setText(String.valueOf(total));
+
+        // Limpiar selección
+        limpiarCampos();
+        
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al procesar el pedido: " + e.getMessage());
     }
-    jTextField1.setText(String.valueOf(total));
-    
-    buttonGroup1.clearSelection();
 
-// 🧹 Limpiar sabores
-jCheckBox1.setSelected(false);
-jCheckBox2.setSelected(false);
-jCheckBox3.setSelected(false);
-jCheckBox4.setSelected(false);
-jCheckBox5.setSelected(false);
-jCheckBox6.setSelected(false);
 
-// 🧹 Limpiar tamaño
-buttonGroup2.clearSelection();
-
-// 🧹 Limpiar toppings
-jCheckBox7.setSelected(false);
-jCheckBox8.setSelected(false);
-jCheckBox9.setSelected(false);
-
-// 🧹 Reiniciar cantidad
-jSpinner1.setValue(1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -1427,60 +1529,58 @@ jSpinner2.setValue(1);
     boolean esPaleta = false;
     String producto = "";
     int precioProducto = 0;
-
-    // Detectar si es paleta
-    if (jRadioButton4.isSelected()) { 
-        esPaleta = true; 
-        producto = "frutos del bosque"; 
-        precioProducto = 55; 
-    } else if (jRadioButton5.isSelected()) { 
-        esPaleta = true; 
-        producto = "Naranja"; 
-        precioProducto = 40; 
-    } else if (jRadioButton6.isSelected()){
-        esPaleta = true; 
-        producto = "quiwi"; 
-        precioProducto = 45; 
-    } else if (jRadioButton7.isSelected()){
-        esPaleta = true; 
-        producto = "sandia"; 
-        precioProducto = 40; 
-    } else if (jRadioButton8.isSelected()){
-        esPaleta = true; 
-        producto = "limon"; 
-        precioProducto = 40; 
-    } else if (jRadioButton9.isSelected()){
-        esPaleta = true; 
-        producto = "frutos rojos"; 
-        precioProducto = 55; 
-    }
-
     String tamaño = "";
     String topping = "";
 
-    if (!esPaleta) {
-        // Es helado: contar y validar sabores
-        if (jCheckBox1.isSelected()) countSabores++;
-        if (jCheckBox2.isSelected()) countSabores++;
-        if (jCheckBox3.isSelected()) countSabores++;
-        if (jCheckBox4.isSelected()) countSabores++;
-        if (jCheckBox5.isSelected()) countSabores++;
-        if (jCheckBox6.isSelected()) countSabores++;
+    try (Connection con = ConexionDB.conectar()) {
 
-        if (countSabores > 2) {
-            JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
-            return;
+      
+        if (jRadioButton4.isSelected()) { 
+            esPaleta = true; 
+            producto = "frutos del bosque"; 
+        } else if (jRadioButton5.isSelected()) { 
+            esPaleta = true; 
+            producto = "Naranja"; 
+        } else if (jRadioButton6.isSelected()){
+            esPaleta = true; 
+            producto = "Kiwi"; 
+        } else if (jRadioButton7.isSelected()){
+            esPaleta = true; 
+            producto = "Sandía"; 
+        } else if (jRadioButton8.isSelected()){
+            esPaleta = true; 
+            producto = "Limón"; 
+        } else if (jRadioButton9.isSelected()){
+            esPaleta = true; 
+            producto = "Frutos rojos"; 
         }
 
-        if (jCheckBox10.isSelected()) { producto += "Vainilla "; precioProducto += 50; }
-        if (jCheckBox11.isSelected()) { producto += "Chocolate "; precioProducto += 60; }
-        if (jCheckBox12.isSelected()) { producto += "Fresa "; precioProducto += 40; }
-        if (jCheckBox13.isSelected()) { producto += "Pistacho "; precioProducto += 70; }
-        if (jCheckBox14.isSelected()) { producto += "Ron pasa "; precioProducto += 65; }
-        if (jCheckBox15.isSelected()) { producto += "Arándano "; precioProducto += 55; }
+        
+        if (esPaleta) {
+            precioProducto = obtenerPrecioDesdeDB(con, producto);
+        } else {
+            // Helado: contar y validar sabores
+            if (jCheckBox10.isSelected()) countSabores++;
+            if (jCheckBox11.isSelected()) countSabores++;
+            if (jCheckBox12.isSelected()) countSabores++;
+            if (jCheckBox13.isSelected()) countSabores++;
+            if (jCheckBox14.isSelected()) countSabores++;
+            if (jCheckBox15.isSelected()) countSabores++;
 
-        // Tamaño obligatorio
-        if (jRadioButton10.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
+            if (countSabores > 2) {
+                JOptionPane.showMessageDialog(this, "Solo puedes seleccionar hasta 2 sabores.");
+                return;
+            }
+
+            if (jCheckBox10.isSelected()) { producto += "Vainilla "; precioProducto += obtenerPrecioDesdeDB(con, "Vainilla"); }
+            if (jCheckBox11.isSelected()) { producto += "Chocolate "; precioProducto += obtenerPrecioDesdeDB(con, "Chocolate"); }
+            if (jCheckBox12.isSelected()) { producto += "Fresa "; precioProducto += obtenerPrecioDesdeDB(con, "Fresa"); }
+            if (jCheckBox13.isSelected()) { producto += "Pistacho "; precioProducto += obtenerPrecioDesdeDB(con, "Pistacho"); }
+            if (jCheckBox14.isSelected()) { producto += "Ron pasa "; precioProducto += obtenerPrecioDesdeDB(con, "Ron pasa"); }
+            if (jCheckBox15.isSelected()) { producto += "Arándano "; precioProducto += obtenerPrecioDesdeDB(con, "Arándano"); }
+
+           
+           if (jRadioButton10.isSelected()) { tamaño = "Pequeño"; precioProducto += 0; }
         else if (jRadioButton11.isSelected()) { tamaño = "Mediano"; precioProducto += 35; }
         else if (jRadioButton12.isSelected()) { tamaño = "Grande"; precioProducto += 50; }
         else {
@@ -1488,76 +1588,55 @@ jSpinner2.setValue(1);
             return;
         }
 
-        // Topping opcional
-        if (jCheckBox16.isSelected()) { topping += "Oreo "; precioProducto += 15; }
-        if (jCheckBox17.isSelected()) { topping += "Chispas "; precioProducto += 10; }
-        if (jCheckBox18.isSelected()) { topping += "Frutas "; precioProducto += 20; }
-    }
-
-    int cantidad = Integer.parseInt(jSpinner3.getValue().toString());
-    if (cantidad <= 0) {
-        JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
-        return;
-    }
-
-    int subtotal = precioProducto * cantidad;
-
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-    // Agregar fila con tamaño y topping solo si es helado
-    if (esPaleta) {
-        model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
-    } else {
-        model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
-    }
-
-    // Actualizar total
-    int total = 0;
-    for (int i = 0; i < jTable1.getRowCount(); i++) {
-        Object valor = jTable1.getValueAt(i, 4);
-        if (valor != null) {
-            total += Integer.parseInt(valor.toString());
+            // Topping opcional
+            if (jCheckBox16.isSelected()) { topping += "Oreo "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Oreo"); }
+            if (jCheckBox17.isSelected()) { topping += "Chispas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Chispas"); }
+            if (jCheckBox18.isSelected()) { topping += "Frutas "; precioProducto += obtenerPrecioDesdeDB(con, "Topping Frutas"); }
         }
+
+        // Cantidad
+        int cantidad = Integer.parseInt(jSpinner3.getValue().toString());
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "Cantidad debe ser mayor que 0.");
+            return;
+        }
+
+        // Calcular subtotal
+        int subtotal = precioProducto * cantidad;
+
+        // Agregar fila
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if (esPaleta) {
+            model.addRow(new Object[]{producto.trim(), "", "", cantidad, subtotal});
+            // Restar inventario si es paleta
+            restarInventario(con, producto, cantidad);
+        } else {
+            model.addRow(new Object[]{producto.trim(), tamaño, topping.trim(), cantidad, subtotal});
+        }
+
+        // Actualizar total
+        int total = 0;
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            Object valor = jTable1.getValueAt(i, 4);
+            if (valor != null) {
+                total += Integer.parseInt(valor.toString());
+            }
+        }
+        jTextField1.setText(String.valueOf(total));
+
+        // Limpiar selección
+        limpiarCampos();
+        jSpinner1.setValue(1);
+        jSpinner2.setValue(1);
+        jSpinner3.setValue(1);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al procesar el pedido: " + e.getMessage());
     }
-    jTextField1.setText(String.valueOf(total));
-    
-    buttonGroup1.clearSelection();
-
-// para Limpiar sabores
-jCheckBox1.setSelected(false);
-jCheckBox2.setSelected(false);
-jCheckBox3.setSelected(false);
-jCheckBox4.setSelected(false);
-jCheckBox5.setSelected(false);
-jCheckBox6.setSelected(false);
-
-// para limpiar sabores de caja
-
-jCheckBox10.setSelected(false);
-jCheckBox11.setSelected(false);
-jCheckBox12.setSelected(false);
-jCheckBox13.setSelected(false);
-jCheckBox14.setSelected(false);
-jCheckBox15.setSelected(false);
-
-// toppins limpiar de caja
-
-jCheckBox16.setSelected(false);
-jCheckBox17.setSelected(false);
-jCheckBox18.setSelected(false);
-
-buttonGroup2.clearSelection();
-buttonGroup3.clearSelection();
-
-// 🧹 Limpiar toppings
-jCheckBox7.setSelected(false);
-jCheckBox8.setSelected(false);
-jCheckBox9.setSelected(false);
 
 
-jSpinner1.setValue(1);
-jSpinner2.setValue(1);
-jSpinner3.setValue(1);
+
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -1679,6 +1758,8 @@ new NewJFrame().setVisible(true);
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
