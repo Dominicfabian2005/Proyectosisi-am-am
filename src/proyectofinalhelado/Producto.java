@@ -4,7 +4,7 @@
  */
 package proyectofinalhelado;
 
-import com.sun.jdi.connect.spi.Connection;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -14,13 +14,13 @@ import java.sql.SQLException;
 
    public  abstract class Producto {
   
-    protected String nombre;
+   protected String nombre;
     protected int cantidad;
 
+   
     public abstract int calcularPrecio(Connection con) throws SQLException;
-    
-    public Producto() {
-    }
+
+    public Producto() {}
 
     public Producto(String nombre, int cantidad) {
         this.nombre = nombre;
@@ -34,11 +34,6 @@ import java.sql.SQLException;
     public int getCantidad() {
         return cantidad;
     }
-
-    int calcularPrecio(java.sql.Connection con) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     
 
   

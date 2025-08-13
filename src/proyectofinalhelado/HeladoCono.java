@@ -4,10 +4,9 @@
  */
 package proyectofinalhelado;
 
-import com.sun.jdi.connect.spi.Connection;
-import java.util.List;
-
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class HeladoCono extends Producto {
     private final List<String> sabores;
@@ -23,26 +22,22 @@ public class HeladoCono extends Producto {
 
     @Override
     public int calcularPrecio(Connection con) throws SQLException {
+        ProductoDao dao = new ProductoDao();
         int precio = 0;
 
-       
         for (String sabor : sabores) {
-            precio += NewJFrame.obtenerPrecioDesdeDB((java.sql.Connection) con, sabor);
+            precio += dao.obtenerPrecioDesdeDB(con, sabor);
         }
 
-      
         switch (tamaño) {
-            case "Pequeño" -> precio += 0;
             case "Mediano" -> precio += 35;
             case "Grande" -> precio += 50;
         }
 
-        
         for (String topping : toppings) {
-            precio += NewJFrame.obtenerPrecioDesdeDB((java.sql.Connection) con, "Topping " + topping);
+            precio += dao.obtenerPrecioDesdeDB(con, "Topping " + topping);
         }
 
-     
         return precio * cantidad;
     }
 

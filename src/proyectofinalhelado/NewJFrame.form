@@ -324,11 +324,13 @@
                                                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                                           <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Group type="102" attributes="0">
+                                                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                                                              <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
                                                           <Group type="102" alignment="0" attributes="0">
-                                                              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+                                                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
@@ -355,19 +357,12 @@
                                                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
+                                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabel8" min="-2" pref="50" max="-2" attributes="0"/>
-                                                          <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="jLabel8" min="-2" pref="50" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
@@ -919,7 +914,6 @@
                                           </Group>
                                           <EmptySpace min="0" pref="57" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -950,6 +944,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1366,6 +1361,8 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jSeparator8" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jSeparator9" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
@@ -1420,20 +1417,19 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="148" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jSpinner2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="jSpinner2" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
                                           <Component id="jLabel19" min="-2" pref="154" max="-2" attributes="0"/>
                                       </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                                          <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace pref="56" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jSeparator8" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jSeparator9" alignment="1" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -1480,9 +1476,9 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                   <Component id="jSeparator8" min="-2" pref="10" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="230" max="32767" attributes="0"/>
+                                  <EmptySpace pref="206" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
