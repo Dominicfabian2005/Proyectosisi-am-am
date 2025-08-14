@@ -15,7 +15,7 @@ public class ConexionDB {
 
     private static final String URL = "jdbc:mysql://localhost:3306/heladeria";
     private static final String USER = "root";
-    private static final String PASSWORD = "Cantidad29*";
+    private static final String PASSWORD = "Bel.ua205";
 
     public static Connection conectar() {
         Connection con = null;
