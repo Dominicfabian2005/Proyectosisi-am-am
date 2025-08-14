@@ -8,6 +8,8 @@ import manejoemp.InterfazAgregarProducto;
 import manejoemp.AgregarProveedor;
 import manejoemp.AgregarProducto;
 import EmpleadoPack.LoginEmpleado;
+import HeladeriaCuentas.CuentasPorCobrar;
+import HeladeriaCuentas.CuentasPorPagar;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -161,7 +163,7 @@ modelo.addTableModelListener(e -> {
         }
 
     } catch (SQLException e) {
-        // Manejo de error
+        
         System.err.println("Error al cargar pedidos: " + e.getMessage());
     }
 
@@ -240,10 +242,10 @@ modelo.addTableModelListener(e -> {
     if (refrescoTimer != null && refrescoTimer.isRunning()) return;
 
     refrescoTimer = new Timer(INTERVALO_MS, e -> {
-        // Actualiza pedidos; si hay selección, la restauración ya hará que se vuelvan a cargar los detalles
+       
         cargarPedidos();
 
-        // Si hay una fila seleccionada actual (después de reload), cargar detalles
+        
         int fila = jTablePedidos.getSelectedRow();
         if (fila >= 0) {
             Object val = jTablePedidos.getValueAt(fila, 0);
@@ -387,6 +389,7 @@ private void mostrarProveedores() throws IOException {
         btninventario = new javax.swing.JButton();
         btnproveedores = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -430,7 +433,6 @@ private void mostrarProveedores() throws IOException {
         btnagregarprov = new javax.swing.JButton();
         actualizarbtn = new javax.swing.JButton();
         borrarbtn = new javax.swing.JButton();
-        tab5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
@@ -477,6 +479,13 @@ private void mostrarProveedores() throws IOException {
             }
         });
 
+        jButton10.setText("Cuentas");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -488,7 +497,8 @@ private void mostrarProveedores() throws IOException {
                     .addComponent(btninventario)
                     .addComponent(btnproducto)
                     .addComponent(btnpedido)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton10))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -500,11 +510,13 @@ private void mostrarProveedores() throws IOException {
                 .addComponent(btnproducto)
                 .addGap(57, 57, 57)
                 .addComponent(btninventario)
-                .addGap(76, 76, 76)
+                .addGap(53, 53, 53)
+                .addComponent(jButton10)
+                .addGap(51, 51, 51)
                 .addComponent(btnproveedores)
-                .addGap(64, 64, 64)
+                .addGap(56, 56, 56)
                 .addComponent(jButton5)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 130, 640));
@@ -945,21 +957,6 @@ private void mostrarProveedores() throws IOException {
 
         jTabbedPane1.addTab("PROVEEDORES", jPanel8);
 
-        tab5.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout tab5Layout = new javax.swing.GroupLayout(tab5);
-        tab5.setLayout(tab5Layout);
-        tab5Layout.setHorizontalGroup(
-            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
-        );
-        tab5Layout.setVerticalGroup(
-            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab5", tab5);
-
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 570, 640));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe_Express_-_file__1_-removebg-preview_1.png"))); // NOI18N
@@ -975,7 +972,7 @@ private void mostrarProveedores() throws IOException {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
         );
 
         pack();
@@ -1007,12 +1004,70 @@ private void mostrarProveedores() throws IOException {
     this.dispose();      
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-   AgregarProveedor nuevaVentana = new AgregarProveedor();
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        CuentasPorCobrar nuevaVentana = new CuentasPorCobrar();
     
     
-    nuevaVentana.setVisible(true);       
-    }//GEN-LAST:event_jButton7ActionPerformed
+    nuevaVentana.setVisible(true);
+    
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void borrarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarbtnActionPerformed
+        int fila = tablaproveedor.getSelectedRow();
+        if (fila >= 0) {
+            int idProveedor = (int) tablaproveedor.getValueAt(fila, 0);
+            int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas borrar este proveedor?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                borrarProveedorEnBD(idProveedor);
+                try {
+                    mostrarProveedores();
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfazManejoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un proveedor para borrar.");
+        }
+        }
+
+        private void borrarProveedorEnBD(int id) {
+            String sql = "DELETE FROM proveedores WHERE id = ?";
+            try (Connection con = ConexionDB.conectar();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+                ps.setInt(1, id);
+                int filasAfectadas = ps.executeUpdate();
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(this, "Proveedor borrado correctamente.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al borrar proveedor: " + ex.getMessage());
+            }
+    }//GEN-LAST:event_borrarbtnActionPerformed
+
+    private void actualizarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarbtnActionPerformed
+        int fila = tablaproveedor.getSelectedRow();
+        if (fila >= 0) {
+            int idProveedor = (int) tablaproveedor.getValueAt(fila, 0);
+            String nombre = tablaproveedor.getValueAt(fila, 1).toString();
+            String producto = tablaproveedor.getValueAt(fila, 2).toString();
+            double precio = (double) tablaproveedor.getValueAt(fila, 3);
+            String telefono = tablaproveedor.getValueAt(fila, 4).toString();
+
+            String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", nombre);
+            if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
+                actualizarProveedorEnBD(idProveedor, nuevoNombre, producto, precio, telefono);
+
+                try {
+                    mostrarProveedores();
+                } catch (IOException ex) {
+                    Logger.getLogger(InterfazManejoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un proveedor para actualizar.");
+        }
+    }//GEN-LAST:event_actualizarbtnActionPerformed
 
     private void btnagregarprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarprovActionPerformed
         try {
@@ -1022,311 +1077,247 @@ private void mostrarProveedores() throws IOException {
         }
     }//GEN-LAST:event_btnagregarprovActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
- try {
-    try (Connection con = ConexionDB.conectar()) {
-        String sql = "SELECT * FROM producto";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
-            
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID");
-            model.addColumn("Nombre");
-            model.addColumn("Categoría");
-            model.addColumn("Precio");
-            
-            while (rs.next()) {
-                Object[] fila = new Object[4];
-                fila[0] = rs.getInt("id");
-                fila[1] = rs.getString("nombre");
-                fila[2] = rs.getString("categoria");
-                fila[3] = rs.getString("precio");
-                model.addRow(fila);
-            }
-            
-            tableproductos.setModel(model);
-            
-            
-            sorterProductos = new TableRowSorter<>(model);
-            tableproductos.setRowSorter(sorterProductos);
-            rs.close();
-        }
-    }
-    
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Error al cargar los productos desde la base de datos.");
-}
-
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         AgregarProducto nuevaVentana = new AgregarProducto();
-    
-    
-    nuevaVentana.setVisible(true);
-    
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       InterfazAgregarProducto nuevaVentana = new InterfazAgregarProducto();
-    
-    
-    nuevaVentana.setVisible(true);
-    
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         txtBuscar.getDocument().addDocumentListener(new DocumentListener() {
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        filtrar();
-    }
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrar();
+            }
 
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        filtrar();
-    }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrar();
+            }
 
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        filtrar();
-    }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrar();
+            }
 
-    private void filtrar() {
-        String texto = txtBuscar.getText();
-        if (texto.trim().length() == 0) {
-            sorterProveedores.setRowFilter(null);
-        } else {
-            sorterProveedores.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
-        }
-    }
-});
+            private void filtrar() {
+                String texto = txtBuscar.getText();
+                if (texto.trim().length() == 0) {
+                    sorterProveedores.setRowFilter(null);
+                } else {
+                    sorterProveedores.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+                }
+            }
+        });
     }//GEN-LAST:event_txtBuscarActionPerformed
 
-    private void txtBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarProductoActionPerformed
-    txtBuscarProducto.getDocument().addDocumentListener(new DocumentListener() {
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        filtrar();
-    }
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        AgregarProveedor nuevaVentana = new AgregarProveedor();
 
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        filtrar();
-    }
+        nuevaVentana.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        filtrar();
-    }
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
-    private void filtrar() {
-        String texto = txtBuscarProducto.getText();
-        if (texto.trim().length() == 0) {
-            sorterProductos.setRowFilter(null);
-        } else {
-            sorterProductos.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
-        }
-    }
-});
-    }//GEN-LAST:event_txtBuscarProductoActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int fila = tableinventario.getSelectedRow();
-    if (fila >= 0) {
-        int idInventario = (int) tableinventario.getValueAt(fila, 0);
-      
-        
-        
-        
-        JOptionPane.showMessageDialog(this, "Funcionalidad de actualizar inventario no implementada.");
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un item del inventario para actualizar.");
-    }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void actualizarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarProductoActionPerformed
-      int filaSeleccionada = tableproductos.getSelectedRow();
-    
-    if (filaSeleccionada != -1) {
         try {
-            
-            int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
-            String nuevoNombre = tableproductos.getValueAt(filaSeleccionada, 1).toString();
-            String nuevaCategoria = tableproductos.getValueAt(filaSeleccionada, 2).toString();
-            double nuevoPrecio = Double.parseDouble(tableproductos.getValueAt(filaSeleccionada, 3).toString());
+            try (Connection con = ConexionDB.conectar()) {
+                String sql = "SELECT * FROM inventario";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ResultSet rs = ps.executeQuery();
 
-            String sql = "UPDATE producto SET nombre = ?, categoria = ?, precio = ? WHERE id = ?";
-            
-            try (Connection con = ConexionDB.conectar();
-                 PreparedStatement ps = con.prepareStatement(sql)) {
-                
-                ps.setString(1, nuevoNombre);
-                ps.setString(2, nuevaCategoria);
-                ps.setDouble(3, nuevoPrecio);
-                ps.setInt(4, idProducto);
+                    DefaultTableModel model = new DefaultTableModel();
+                    model.addColumn("ID");
 
-                int filasAfectadas = ps.executeUpdate();
-                
-                if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(this, "Producto actualizado correctamente.");
-                    mostrarProductos(); 
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se pudo actualizar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
-    }//GEN-LAST:event_actualizarProductoActionPerformed
+                    model.addColumn("Producto");
+                    model.addColumn("Cantidad");
+                    model.addColumn("Fecha Ingreso");
+                    model.addColumn("Fecha Expiración");
 
-    private void borrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProductoActionPerformed
-        int filaSeleccionada = tableproductos.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea borrar este producto?", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            try {
-              
-                int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
-                String sql = "DELETE FROM producto WHERE id = ?";
-                try (Connection con = ConexionDB.conectar();
-                     PreparedStatement ps = con.prepareStatement(sql)) {
-                    ps.setInt(1, idProducto);
-                    int filasAfectadas = ps.executeUpdate();
-                    if (filasAfectadas > 0) {
-                        JOptionPane.showMessageDialog(this, "Producto borrado correctamente.");
-                        
-                        mostrarProductos();
+                    while (rs.next()) {
+                        Object[] fila = new Object[6];
+                        fila[0] = rs.getInt("id");
+
+                        fila[1] = rs.getString("producto");
+                        fila[2] = rs.getInt("cantidad");
+                        fila[3] = rs.getDate("fechaing");
+                        fila[4] = rs.getDate("fechaexpiracion");
+                        model.addRow(fila);
                     }
+
+                    tableinventario.setModel(model);
+
+                    sorterinventario = new TableRowSorter<>(model);
+                    tableinventario.setRowSorter(sorterinventario);
+                    rs.close();
                 }
-            } catch (SQLException | NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Error al borrar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar el inventario desde la base de datos.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para borrar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
-    }//GEN-LAST:event_borrarProductoActionPerformed
-
-    private void actualizarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarbtnActionPerformed
-        int fila = tablaproveedor.getSelectedRow();
-    if (fila >= 0) {
-        int idProveedor = (int) tablaproveedor.getValueAt(fila, 0);
-        String nombre = tablaproveedor.getValueAt(fila, 1).toString();
-        String producto = tablaproveedor.getValueAt(fila, 2).toString();
-        double precio = (double) tablaproveedor.getValueAt(fila, 3);
-        String telefono = tablaproveedor.getValueAt(fila, 4).toString();
-
-      
-        String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", nombre);
-        if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
-            actualizarProveedorEnBD(idProveedor, nuevoNombre, producto, precio, telefono);
-            
-            try {
-                mostrarProveedores();
-            } catch (IOException ex) {
-                Logger.getLogger(InterfazManejoPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un proveedor para actualizar.");
-    }
-    }//GEN-LAST:event_actualizarbtnActionPerformed
-
-    private void borrarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarbtnActionPerformed
-        int fila = tablaproveedor.getSelectedRow();
-    if (fila >= 0) {
-        int idProveedor = (int) tablaproveedor.getValueAt(fila, 0);
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas borrar este proveedor?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
-            borrarProveedorEnBD(idProveedor);
-            try {
-                mostrarProveedores();
-            } catch (IOException ex) {
-                Logger.getLogger(InterfazManejoPedido.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un proveedor para borrar.");
-    }
-}
-
-
-private void borrarProveedorEnBD(int id) {
-    String sql = "DELETE FROM proveedores WHERE id = ?";
-    try (Connection con = ConexionDB.conectar();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-        
-        ps.setInt(1, id);
-        int filasAfectadas = ps.executeUpdate();
-        if (filasAfectadas > 0) {
-            JOptionPane.showMessageDialog(this, "Proveedor borrado correctamente.");
-        }
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error al borrar proveedor: " + ex.getMessage());
-    }
-    }//GEN-LAST:event_borrarbtnActionPerformed
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int fila = tableinventario.getSelectedRow();
-    if (fila >= 0) {
-        int idInventario = (int) tableinventario.getValueAt(fila, 0);
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas borrar este item del inventario?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
-            // Lógica para borrar en la base de datos
-            // borrarInventarioEnBD(idInventario);
-            
-            JOptionPane.showMessageDialog(this, "Funcionalidad de borrar inventario no implementada.");
+        if (fila >= 0) {
+            int idInventario = (int) tableinventario.getValueAt(fila, 0);
+            int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas borrar este item del inventario?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Lógica para borrar en la base de datos
+                // borrarInventarioEnBD(idInventario);
+
+                JOptionPane.showMessageDialog(this, "Funcionalidad de borrar inventario no implementada.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un item del inventario para borrar.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un item del inventario para borrar.");
-    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-    
-        try {
-    try (Connection con = ConexionDB.conectar()) {
-        String sql = "SELECT * FROM inventario"; 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
-            
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID");
-          
-            model.addColumn("Producto");
-            model.addColumn("Cantidad");
-            model.addColumn("Fecha Ingreso");
-            model.addColumn("Fecha Expiración");
-            
-            while (rs.next()) {
-                Object[] fila = new Object[6];
-                fila[0] = rs.getInt("id");
-             
-                fila[1] = rs.getString("producto");
-                fila[2] = rs.getInt("cantidad");
-                fila[3] = rs.getDate("fechaing");
-                fila[4] = rs.getDate("fechaexpiracion");
-                model.addRow(fila);
-            }
-            
-            tableinventario.setModel(model);
-            
-            sorterinventario = new TableRowSorter<>(model);
-            tableinventario.setRowSorter(sorterinventario);
-            rs.close();
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int fila = tableinventario.getSelectedRow();
+        if (fila >= 0) {
+            int idInventario = (int) tableinventario.getValueAt(fila, 0);
+
+            JOptionPane.showMessageDialog(this, "Funcionalidad de actualizar inventario no implementada.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un item del inventario para actualizar.");
         }
-    }
-    
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Error al cargar el inventario desde la base de datos.");
-}
+    }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        InterfazAgregarProducto nuevaVentana = new InterfazAgregarProducto();
 
-    }//GEN-LAST:event_jButton9ActionPerformed
+        nuevaVentana.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void borrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProductoActionPerformed
+        int filaSeleccionada = tableproductos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea borrar este producto?", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                try {
+
+                    int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
+                    String sql = "DELETE FROM producto WHERE id = ?";
+                    try (Connection con = ConexionDB.conectar();
+                        PreparedStatement ps = con.prepareStatement(sql)) {
+                        ps.setInt(1, idProducto);
+                        int filasAfectadas = ps.executeUpdate();
+                        if (filasAfectadas > 0) {
+                            JOptionPane.showMessageDialog(this, "Producto borrado correctamente.");
+
+                            mostrarProductos();
+                        }
+                    }
+                } catch (SQLException | NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Error al borrar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para borrar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_borrarProductoActionPerformed
+
+    private void actualizarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarProductoActionPerformed
+        int filaSeleccionada = tableproductos.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            try {
+
+                int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
+                String nuevoNombre = tableproductos.getValueAt(filaSeleccionada, 1).toString();
+                String nuevaCategoria = tableproductos.getValueAt(filaSeleccionada, 2).toString();
+                double nuevoPrecio = Double.parseDouble(tableproductos.getValueAt(filaSeleccionada, 3).toString());
+
+                String sql = "UPDATE producto SET nombre = ?, categoria = ?, precio = ? WHERE id = ?";
+
+                try (Connection con = ConexionDB.conectar();
+                    PreparedStatement ps = con.prepareStatement(sql)) {
+
+                    ps.setString(1, nuevoNombre);
+                    ps.setString(2, nuevaCategoria);
+                    ps.setDouble(3, nuevoPrecio);
+                    ps.setInt(4, idProducto);
+
+                    int filasAfectadas = ps.executeUpdate();
+
+                    if (filasAfectadas > 0) {
+                        JOptionPane.showMessageDialog(this, "Producto actualizado correctamente.");
+                        mostrarProductos();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se pudo actualizar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            } catch (SQLException | NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_actualizarProductoActionPerformed
+
+    private void txtBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarProductoActionPerformed
+        txtBuscarProducto.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrar();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrar();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrar();
+            }
+
+            private void filtrar() {
+                String texto = txtBuscarProducto.getText();
+                if (texto.trim().length() == 0) {
+                    sorterProductos.setRowFilter(null);
+                } else {
+                    sorterProductos.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+                }
+            }
+        });
+    }//GEN-LAST:event_txtBuscarProductoActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        try {
+            try (Connection con = ConexionDB.conectar()) {
+                String sql = "SELECT * FROM producto";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ResultSet rs = ps.executeQuery();
+
+                    DefaultTableModel model = new DefaultTableModel();
+                    model.addColumn("ID");
+                    model.addColumn("Nombre");
+                    model.addColumn("Categoría");
+                    model.addColumn("Precio");
+
+                    while (rs.next()) {
+                        Object[] fila = new Object[4];
+                        fila[0] = rs.getInt("id");
+                        fila[1] = rs.getString("nombre");
+                        fila[2] = rs.getString("categoria");
+                        fila[3] = rs.getString("precio");
+                        model.addRow(fila);
+                    }
+
+                    tableproductos.setModel(model);
+
+                    sorterProductos = new TableRowSorter<>(model);
+                    tableproductos.setRowSorter(sorterProductos);
+                    rs.close();
+                }
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los productos desde la base de datos.");
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        AgregarProducto nuevaVentana = new AgregarProducto();
+
+        nuevaVentana.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1377,6 +1368,7 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JButton btnproducto;
     private javax.swing.JButton btnproveedores;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1412,7 +1404,6 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JTable jTableDetalles;
     private javax.swing.JTable jTablePedidos;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JPanel tab5;
     private javax.swing.JTable tablaproveedor;
     private javax.swing.JTable tableinventario;
     private javax.swing.JTable tableproductos;
