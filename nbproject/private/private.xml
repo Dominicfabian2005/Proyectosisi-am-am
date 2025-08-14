@@ -11,7 +11,6 @@
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Producto.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/DetallePedido.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Pedido.java</file>
-            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/OrdenPreview.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/EmpleadoPack/LoginEmpleado.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/conexionBD/ConexionDB.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/conexionBD/TestConexion.java</file>
@@ -23,6 +22,13 @@
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Proveedor.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/InterfazAgregarProducto.java</file>
             <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/AgregarProveedor.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/AgregarProducto.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/HeladoCajita.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/HeladoCono.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/HeladoPaleta.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Metodosinter.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/ProductoDao.java</file>
+            <file>file:/C:/Users/domif/OneDrive/Documentos/NetBeansProjects/PROYECTOFINALHELADO/src/proyectofinalhelado/Extra.java</file>
         </group>
     </open-files>
 </project-private>

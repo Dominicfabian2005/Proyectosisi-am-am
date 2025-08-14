@@ -31,6 +31,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 
 import javax.swing.RowFilter;
@@ -38,6 +41,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableColumn;
 
 
 /**
@@ -62,6 +67,32 @@ private final int INTERVALO_MS = 5000;
         jTablePedidos.setRowSelectionInterval(0, 0);
     }
     iniciarRefrescoAutomatico();
+    
+    
+    TableColumn colEstado = jTablePedidos.getColumnModel().getColumn(4);
+        JComboBox<String> comboEstado = new JComboBox<>(new String[]{"Pendiente", "Procesando", "Entregado"});
+        colEstado.setCellEditor(new DefaultCellEditor(comboEstado));
+        
+        
+ DefaultTableModel modelo = (DefaultTableModel) jTablePedidos.getModel();
+
+modelo.addTableModelListener(e -> {
+    if (e.getType() == TableModelEvent.UPDATE) {
+        int fila = e.getFirstRow();
+        int columna = e.getColumn();
+
+        // Cambia 4 por el índice correcto en tu modelo
+        if (columna == 4) {
+            String nuevoEstado = modelo.getValueAt(fila, columna).toString();
+            int idPedido = Integer.parseInt(modelo.getValueAt(fila, 0).toString());
+
+            // Actualizar en la BD
+            actualizarEstadoEnBD(idPedido, nuevoEstado);
+
+           
+        }
+    }
+});
        
     }
 
@@ -83,8 +114,11 @@ private final int INTERVALO_MS = 5000;
 
     model.setRowCount(0); // limpiar
 
-    String sql = "SELECT id_pedido, cliente, fecha,total, estado FROM pedido ORDER BY id_pedido DESC";
-
+    String sql = "SELECT id_pedido, cliente, fecha, total, estado " +
+             "FROM pedido " +
+             "WHERE estado IN ('Pendiente', 'Procesando') " +
+             "ORDER BY id_pedido DESC";
+    
     try (Connection conn = ConexionDB.conectar();
          PreparedStatement ps = conn.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
@@ -97,6 +131,8 @@ private final int INTERVALO_MS = 5000;
             String estado = rs.getString("estado");
 
             model.addRow(new Object[]{idPedido, cliente, fecha,total, estado});
+            
+         
         }
 
     } catch (SQLException e) {
@@ -122,6 +158,7 @@ private final int INTERVALO_MS = 5000;
         }
     }
 }
+    
     
     
     
@@ -203,6 +240,33 @@ private void detenerRefrescoAutomatico() {
     }
 } 
 
+
+
+private boolean actualizarEstadoEnBD(int idPedido, String nuevoEstado) {
+    String sql = "UPDATE pedido SET estado = ? WHERE id_pedido = ?";
+    try (Connection con = ConexionDB.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, nuevoEstado);
+        ps.setInt(2, idPedido);
+        int filas = ps.executeUpdate();
+        return filas > 0;
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar estado: " + ex.getMessage());
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 private void mostrarProveedores() throws IOException {
     DefaultTableModel modelo = new DefaultTableModel();
     modelo.addColumn("ID");
@@ -270,13 +334,12 @@ private void mostrarProveedores() throws IOException {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         Pedidos = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTablePedidos = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDetalles = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         Productos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -302,6 +365,7 @@ private void mostrarProveedores() throws IOException {
         jLabel4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnagregarprov = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -368,28 +432,22 @@ private void mostrarProveedores() throws IOException {
                 .addComponent(btnproducto)
                 .addGap(57, 57, 57)
                 .addComponent(btninventario)
-                .addGap(56, 56, 56)
+                .addGap(76, 76, 76)
                 .addComponent(btnproveedores)
                 .addGap(64, 64, 64)
                 .addComponent(jButton5)
-                .addContainerGap(218, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
-        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 130, 640));
-        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 40, 740, 10));
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 130, 640));
+        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 80, 740, 10));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 153, 102));
         jLabel1.setText("SISTEMA HELADERIA BLIZZ- EMPLEADO");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 
         Pedidos.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-
-        jButton2.setText("jButton2");
-
-        jButton3.setText("jButton3");
 
         jTablePedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +459,15 @@ private void mostrarProveedores() throws IOException {
             new String [] {
                 "id", "Cliente", "fecha", "total", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(jTablePedidos);
 
         jTableDetalles.setModel(new javax.swing.table.DefaultTableModel(
@@ -414,8 +480,24 @@ private void mostrarProveedores() throws IOException {
             new String [] {
                 "Producto", "cantidad", "Tamano", "Sabor", "Topping", "subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTableDetalles);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel5.setText("MANEJO DE PEDIDOS");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel6.setText("DETALLES DEL PEDIDO SELECCIONADO");
 
         javax.swing.GroupLayout PedidosLayout = new javax.swing.GroupLayout(Pedidos);
         Pedidos.setLayout(PedidosLayout);
@@ -423,34 +505,33 @@ private void mostrarProveedores() throws IOException {
             PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PedidosLayout.createSequentialGroup()
                 .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(PedidosLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
+                        .addGroup(PedidosLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane5)))
                     .addGroup(PedidosLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1)
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton2)
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton3))
+                        .addGap(153, 153, 153)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PedidosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PedidosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(475, Short.MAX_VALUE))
+                        .addGap(204, 204, 204)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(451, Short.MAX_VALUE))
         );
         PedidosLayout.setVerticalGroup(
             PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PedidosLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addComponent(jLabel6)
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -511,7 +592,7 @@ private void mostrarProveedores() throws IOException {
         Productos.setLayout(ProductosLayout);
         ProductosLayout.setHorizontalGroup(
             ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ProductosLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProductosLayout.createSequentialGroup()
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(ProductosLayout.createSequentialGroup()
@@ -522,12 +603,13 @@ private void mostrarProveedores() throws IOException {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4)))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ProductosLayout.createSequentialGroup()
                         .addGap(78, 78, 78)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ProductosLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton4)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ProductosLayout.setVerticalGroup(
@@ -536,13 +618,13 @@ private void mostrarProveedores() throws IOException {
                 .addGap(25, 25, 25)
                 .addGroup(ProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton4)
-                    .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addGap(1, 1, 1)
+                    .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
@@ -600,7 +682,7 @@ private void mostrarProveedores() throws IOException {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
+                        .addGap(86, 86, 86)
                         .addComponent(jButton6))
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(69, Short.MAX_VALUE))
@@ -608,12 +690,16 @@ private void mostrarProveedores() throws IOException {
         InventarioLayout.setVerticalGroup(
             InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InventarioLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
-                .addGap(13, 13, 13)
+                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(InventarioLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(InventarioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton6)))
+                .addGap(14, 14, 14)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -723,7 +809,10 @@ private void mostrarProveedores() throws IOException {
 
         jTabbedPane1.addTab("PROVEEDORES", jPanel8);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 570, 640));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 570, 640));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectofinalhelado/imagenn/Adobe_Express_-_file__1_-removebg-preview_1.png"))); // NOI18N
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -20, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -819,7 +908,11 @@ try {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+         AgregarProducto nuevaVentana = new AgregarProducto();
+    
+    
+    nuevaVentana.setVisible(true);
+    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -931,9 +1024,6 @@ try {
     private javax.swing.JButton btnpedido;
     private javax.swing.JButton btnproducto;
     private javax.swing.JButton btnproveedores;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -943,6 +1033,9 @@ try {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;

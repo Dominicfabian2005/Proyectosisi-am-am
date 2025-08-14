@@ -4,38 +4,48 @@
  */
 package proyectofinalhelado;
 
-public class HeladoCono extends Producto {
-    private String tipoCono; // Atributo específico
-    private String sabor;    // Atributo específico
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
-    public HeladoCono(int id, String nombre, double precio, int proveedor, String tipoCono, String sabor) {
-        super(id, nombre, precio, proveedor);
-        this.tipoCono = tipoCono;
-        this.sabor = sabor;
+public class HeladoCono extends Producto {
+    private final List<String> sabores;
+    private final String tamaño;
+    private final List<String> toppings;
+
+    public HeladoCono(List<String> sabores, String tamaño, List<String> toppings, int cantidad) {
+        super(String.join(" ", sabores), cantidad);
+        this.sabores = sabores;
+        this.tamaño = tamaño;
+        this.toppings = toppings;
     }
 
     @Override
-    public double calcularPrecioFinal() {
-        double precioAdicional = 0.0;
-        if (this.tipoCono.equals("Waffle")) {
-            precioAdicional = 0.50;
+    public int calcularPrecio(Connection con) throws SQLException {
+        ProductoDao dao = new ProductoDao();
+        int precio = 0;
+
+        for (String sabor : sabores) {
+            precio += dao.obtenerPrecioDesdeDB(con, sabor);
         }
-        return getPrecio() + precioAdicional;
+
+        switch (tamaño) {
+            case "Mediano" -> precio += 35;
+            case "Grande" -> precio += 50;
+        }
+
+        for (String topping : toppings) {
+            precio += dao.obtenerPrecioDesdeDB(con, "Topping " + topping);
+        }
+
+        return precio * cantidad;
     }
 
-    public String getTipoCono() {
-        return tipoCono;
+    public String getTamaño() {
+        return tamaño;
     }
 
-    public void setTipoCono(String tipoCono) {
-        this.tipoCono = tipoCono;
-    }
-
-    public String getSabor() {
-        return sabor;
-    }
-
-    public void setSabor(String sabor) {
-        this.sabor = sabor;
+    public String getToppingsDescripcion() {
+        return String.join(" ", toppings);
     }
 }

@@ -4,62 +4,38 @@
  */
 package proyectofinalhelado;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 /**
  *
  * @author domif
  */
 
-   public class Producto {
-    private int id;
-    private String nombre;
-    private double precio;
- private int proveedor;
+   public  abstract class Producto {
+  
+   protected String nombre;
+    protected int cantidad;
 
-    public Producto() {
-    }
+   
+    public abstract int calcularPrecio(Connection con) throws SQLException;
 
-    public Producto(int id, String nombre, double precio, int proveedor) {
-        this.id = id;
+    public Producto() {}
+
+    public Producto(String nombre, int cantidad) {
         this.nombre = nombre;
-        this.precio = precio;
-        this.proveedor = proveedor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.cantidad = cantidad;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(int proveedor) {
-        this.proveedor = proveedor;
+    public int getCantidad() {
+        return cantidad;
     }
     
- 
- 
- 
- 
+
+  
 } 
 
