@@ -56,6 +56,8 @@ public class InterfazManejoPedido extends javax.swing.JFrame {
 
    private TableRowSorter<DefaultTableModel> sorterProveedores;
 private TableRowSorter<DefaultTableModel> sorterProductos;
+private TableRowSorter<DefaultTableModel> sorterinventario;
+
     private Timer refrescoTimer;
 private final int INTERVALO_MS = 5000;
     /**
@@ -65,7 +67,7 @@ private final int INTERVALO_MS = 5000;
         initComponents();
          configurarSelectionListener();
     cargarPedidos();        // carga inicial
-    // si quieres cargar detalles del primer pedido por defecto:
+   
     if (jTablePedidos.getRowCount() > 0) {
         jTablePedidos.setRowSelectionInterval(0, 0);
     }
@@ -394,13 +396,14 @@ private void mostrarProveedores() throws IOException {
         jPanel7 = new javax.swing.JPanel();
         Inventario = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableinventario = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         Proveedores = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -563,7 +566,7 @@ private void mostrarProveedores() throws IOException {
                         .addGap(140, 140, 140)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -660,7 +663,7 @@ private void mostrarProveedores() throws IOException {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ProductosLayout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -708,18 +711,18 @@ private void mostrarProveedores() throws IOException {
 
         Inventario.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableinventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "id", "Nombre", "Producto", "cantidad", "fecha_ingreso", "fecha_exp"
+                "id", "Producto", "cantidad", "fecha_ingreso", "fecha_exp"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tableinventario);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 153, 255));
@@ -746,6 +749,13 @@ private void mostrarProveedores() throws IOException {
             }
         });
 
+        jButton9.setText("MOSTRAR PRODUCTOS");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout InventarioLayout = new javax.swing.GroupLayout(Inventario);
         Inventario.setLayout(InventarioLayout);
         InventarioLayout.setHorizontalGroup(
@@ -758,39 +768,40 @@ private void mostrarProveedores() throws IOException {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(InventarioLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(InventarioLayout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jButton6)
+                                .addGap(60, 60, 60)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(59, 59, 59)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(InventarioLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(86, 86, 86)
-                                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addGap(30, 30, 30)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
         InventarioLayout.setVerticalGroup(
             InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InventarioLayout.createSequentialGroup()
-                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(InventarioLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(InventarioLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(InventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -881,7 +892,7 @@ private void mostrarProveedores() throws IOException {
                         .addComponent(actualizarbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(borrarbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         ProveedoresLayout.setVerticalGroup(
             ProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -924,7 +935,7 @@ private void mostrarProveedores() throws IOException {
         tab5.setLayout(tab5Layout);
         tab5Layout.setHorizontalGroup(
             tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
         );
         tab5Layout.setVerticalGroup(
             tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -944,11 +955,11 @@ private void mostrarProveedores() throws IOException {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1573, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1287, Short.MAX_VALUE)
         );
 
         pack();
@@ -996,7 +1007,7 @@ private void mostrarProveedores() throws IOException {
     }//GEN-LAST:event_btnagregarprovActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-try {
+ try {
     try (Connection con = ConexionDB.conectar()) {
         String sql = "SELECT * FROM producto";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -1029,7 +1040,6 @@ try {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Error al cargar los productos desde la base de datos.");
 }
-
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1106,9 +1116,9 @@ try {
     }//GEN-LAST:event_txtBuscarProductoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int fila = jTable3.getSelectedRow();
+        int fila = tableinventario.getSelectedRow();
     if (fila >= 0) {
-        int idInventario = (int) jTable3.getValueAt(fila, 0);
+        int idInventario = (int) tableinventario.getValueAt(fila, 0);
         // ... obtener otros datos de la fila ...
         
         // Lógica para actualizar en la base de datos
@@ -1195,15 +1205,11 @@ try {
         double precio = (double) tablaproveedor.getValueAt(fila, 3);
         String telefono = tablaproveedor.getValueAt(fila, 4).toString();
 
-        // Puedes crear una nueva ventana o un cuadro de diálogo para la edición
-        // Por ahora, lo haremos directamente en la base de datos
-        // ... (Aquí iría la lógica para editar y actualizar en la BD)
-        
-        // Ejemplo de diálogo para actualizar
+      
         String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", nombre);
         if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
             actualizarProveedorEnBD(idProveedor, nuevoNombre, producto, precio, telefono);
-            // Vuelve a cargar los datos después de actualizar
+            
             try {
                 mostrarProveedores();
             } catch (IOException ex) {
@@ -1233,7 +1239,7 @@ try {
     }
 }
 
-// Método para borrar en la base de datos
+
 private void borrarProveedorEnBD(int id) {
     String sql = "DELETE FROM proveedores WHERE id = ?";
     try (Connection con = ConexionDB.conectar();
@@ -1250,9 +1256,9 @@ private void borrarProveedorEnBD(int id) {
     }//GEN-LAST:event_borrarbtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        int fila = jTable3.getSelectedRow();
+        int fila = tableinventario.getSelectedRow();
     if (fila >= 0) {
-        int idInventario = (int) jTable3.getValueAt(fila, 0);
+        int idInventario = (int) tableinventario.getValueAt(fila, 0);
         int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas borrar este item del inventario?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             // Lógica para borrar en la base de datos
@@ -1264,6 +1270,48 @@ private void borrarProveedorEnBD(int id) {
         JOptionPane.showMessageDialog(this, "Seleccione un item del inventario para borrar.");
     }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    
+        try {
+    try (Connection con = ConexionDB.conectar()) {
+        String sql = "SELECT * FROM inventario"; 
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+          
+            model.addColumn("Producto");
+            model.addColumn("Cantidad");
+            model.addColumn("Fecha Ingreso");
+            model.addColumn("Fecha Expiración");
+            
+            while (rs.next()) {
+                Object[] fila = new Object[6];
+                fila[0] = rs.getInt("id");
+             
+                fila[1] = rs.getString("producto");
+                fila[2] = rs.getInt("cantidad");
+                fila[3] = rs.getDate("fechaing");
+                fila[4] = rs.getDate("fechaexpiracion");
+                model.addRow(fila);
+            }
+            
+            tableinventario.setModel(model);
+            
+            sorterinventario = new TableRowSorter<>(model);
+            tableinventario.setRowSorter(sorterinventario);
+            rs.close();
+        }
+    }
+    
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Error al cargar el inventario desde la base de datos.");
+}
+
+
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1321,6 +1369,7 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1345,12 +1394,12 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTableDetalles;
     private javax.swing.JTable jTablePedidos;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel tab5;
     private javax.swing.JTable tablaproveedor;
+    private javax.swing.JTable tableinventario;
     private javax.swing.JTable tableproductos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtBuscarProducto;
