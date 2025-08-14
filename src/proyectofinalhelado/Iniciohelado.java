@@ -13,9 +13,7 @@ import EmpleadoPack.LoginEmpleado;
  */
 public class Iniciohelado extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Iniciohelado
-     */
+   
     public Iniciohelado() {
         initComponents();
     }

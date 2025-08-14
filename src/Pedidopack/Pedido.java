@@ -16,7 +16,7 @@ public class Pedido {
     private double total;
     private List<DetallePedido> detalles;
 
-    // Constructor con parámetros
+   
     public Pedido(int id, Date fecha, String estado) {
         this.id = id;
         this.fecha = fecha;
@@ -26,7 +26,7 @@ public class Pedido {
         this.nombreCliente = "";
     }
 
-    // Constructor vacío que inicializa la lista y otros atributos
+ 
     public Pedido() {
         this.id = 0;
         this.fecha = new Date();

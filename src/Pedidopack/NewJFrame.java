@@ -1511,7 +1511,7 @@ JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INF
     try (Connection con = ConexionDB.conectar()) {
     Producto producto;
     ProductoDao dao = new ProductoDao();
-    String tipoProducto; // Nueva variable para el tipo
+    String tipoProducto; 
 
     if (jRadioButton4.isSelected()) {
         producto = new HeladoPaleta("frutos del bosque", (int) jSpinner1.getValue());
