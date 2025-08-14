@@ -4,7 +4,7 @@
  */
 package EmpleadoPack;
 
-import proyectofinalhelado.Pedido;
+import Pedidopack.Pedido;
 import proyectofinalhelado.Persona;
 
 /**

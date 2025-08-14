@@ -4,6 +4,7 @@
  */
 package proyectofinalhelado;
 
+import Pedidopack.NewJFrame;
 import EmpleadoPack.LoginEmpleado;
 
 /**

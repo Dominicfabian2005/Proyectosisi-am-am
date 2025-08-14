@@ -1,4 +1,4 @@
-package proyectofinalhelado;
+package Pedidopack;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -6,6 +6,11 @@ package proyectofinalhelado;
 
 
 
+import Productos.ProductoDao;
+import Productos.Producto;
+import Productos.Extra;
+import Productos.HeladoPaleta;
+import Productos.HeladoCono;
 import java.sql.Connection;
 
 import conexionBD.ConexionDB;
@@ -19,15 +24,15 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyectofinalhelado.Cliente;
-import proyectofinalhelado.Pedido;
-import proyectofinalhelado.PedidoDao;
+import Pedidopack.Pedido;
+import Pedidopack.PedidoDao;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JTable;
-import proyectofinalhelado.Pedido;
-import proyectofinalhelado.Pedido;
-import proyectofinalhelado.PedidoDao;
-import proyectofinalhelado.PedidoDao;
+import Pedidopack.Pedido;
+import Pedidopack.Pedido;
+import Pedidopack.PedidoDao;
+import Pedidopack.PedidoDao;
 import java.sql.PreparedStatement;
 
 import java.util.logging.Level;
@@ -67,33 +72,44 @@ model.setRowCount(0);
 private String generarFactura(String cliente) {
     StringBuilder factura = new StringBuilder();
     factura.append("---------------------------------------\n");
-    factura.append("       HELADERÍA BLIZZ");
+    factura.append("       HELADERÍA BLIZZ\n");
     factura.append("---------------------------------------\n\n");
 
     factura.append("Cliente:  ").append(jTextField2.getText());
     factura.append("   Fecha: ").append(java.time.LocalDate.now().toString()).append("\n\n");
 
-   
-
-    factura.append("-------------------------------------------------------\n");
-    factura.append(String.format("%-20s %5s %15s %12s\n", "Producto", "Cant.", "Precio Unit.", "Subtotal"));
-    factura.append("-------------------------------------------------------\n");
+    factura.append("---------------------------------------------------------------\n");
+    factura.append(String.format("%-25s %5s %15s %12s\n", "Producto (Tipo/Tamaño/Toppings)", "Cant.", "Precio Unit.", "Subtotal"));
+    factura.append("---------------------------------------------------------------\n");
 
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     int total = 0;
     for (int i = 0; i < model.getRowCount(); i++) {
-        String producto = model.getValueAt(i, 0).toString();
-        int cantidad = Integer.parseInt(model.getValueAt(i, 3).toString());
-        int subtotal = Integer.parseInt(model.getValueAt(i, 4).toString());
-        int precioUnit = subtotal / cantidad;
+        String tipoProducto = model.getValueAt(i, 0).toString(); 
+        String nombre = model.getValueAt(i, 1).toString();
+        String tamaño = model.getValueAt(i, 2) != null ? model.getValueAt(i, 2).toString() : "";
+        String toppings = model.getValueAt(i, 3) != null ? model.getValueAt(i, 3).toString() : "";
+        int cantidad = model.getValueAt(i, 4) != null && !model.getValueAt(i, 4).toString().isEmpty() ? Integer.parseInt(model.getValueAt(i, 4).toString()) : 0;
+        int subtotal = model.getValueAt(i, 5) != null && !model.getValueAt(i, 5).toString().isEmpty() ? Integer.parseInt(model.getValueAt(i, 5).toString()) : 0;
+        int precioUnit = cantidad != 0 ? subtotal / cantidad : subtotal;
 
-        factura.append(String.format("%-20s %5d %15s %12s\n", producto, cantidad, "RD$ " + precioUnit, "RD$ " + subtotal));
+        String productoCompleto = nombre + " (" + tipoProducto + (tamaño.isEmpty() ? "" : ", " + tamaño) + (toppings.isEmpty() ? "" : ", " + toppings) + ")";
+
+       
+        while (productoCompleto.length() > 25) {
+            factura.append(String.format("%-25s\n", productoCompleto.substring(0, 25)));
+            productoCompleto = productoCompleto.substring(25);
+        }
+
+        factura.append(String.format("%-25s %5d %15s %12s\n", productoCompleto, cantidad, "RD$ " + precioUnit, "RD$ " + subtotal));
+
+        total += subtotal;
     }
 
-    factura.append("-------------------------------------------------------");
-    factura.append(String.format("%40s %12s", "Total:", "RD$ " + jTextField1.getText()));
-    factura.append("-------------------------------------------------------");
-    factura.append("¡Gracias por preferirnos!");
+    factura.append("---------------------------------------------------------------\n");
+    factura.append(String.format("%50s %12s\n", "Total:", "RD$ " + total));
+    factura.append("---------------------------------------------------------------\n");
+    factura.append("¡Gracias por preferirnos!\n");
 
     return factura.toString();
 }
@@ -964,7 +980,7 @@ private void limpiarCampos() {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 787, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 787, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("HELADO CAJITA", jPanel3);
@@ -1484,6 +1500,10 @@ scroll.setPreferredSize(new Dimension(500, 400));
 JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INFORMATION_MESSAGE);
 
     
+  jTextField1.setText(""); 
+    jTextField2.setText(""); 
+
+
     
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1517,7 +1537,7 @@ JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INF
         if (jCheckBox2.isSelected()) sabores.add("Chocolate");
         if (jCheckBox3.isSelected()) sabores.add("Fresa");
         if (jCheckBox4.isSelected()) sabores.add("Pistacho");
-        if (jCheckBox5.isSelected()) sabores.add("Ron pasa");
+        if (jCheckBox5.isSelected()) sabores.add("Ron pasas");
         if (jCheckBox6.isSelected()) sabores.add("Arándano");
 
         if (sabores.size() > 2) {
@@ -1718,9 +1738,9 @@ JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INF
         }
 
         List<String> toppings = new ArrayList<>();
-        if (jCheckBox7.isSelected()) toppings.add("Oreo");
-        if (jCheckBox8.isSelected()) toppings.add("Chispas");
-        if (jCheckBox9.isSelected()) toppings.add("Frutas");
+        if (jCheckBox16.isSelected()) toppings.add("Oreo");
+        if (jCheckBox17.isSelected()) toppings.add("Chispas");
+        if (jCheckBox18.isSelected()) toppings.add("Frutas");
 
         producto = new HeladoCono(sabores, tamaño, toppings, (int) jSpinner3.getValue());
         tipoProducto = "Helado caja";
@@ -1822,14 +1842,15 @@ JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INF
 
     int subtotal = producto.calcularPrecio(con);
 
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    if (producto instanceof HeladoPaleta) {
-       
-        model.addRow(new Object[]{tipoProducto, producto.getNombre(), "", "", producto.getCantidad(), subtotal});
-     //   dao.restarInventario(con, producto.getNombre(), producto.getCantidad());
-    } else if (producto instanceof HeladoCono cono) {
-        model.addRow(new Object[]{tipoProducto, producto.getNombre(), cono.getTamaño(), cono.getToppingsDescripcion(), producto.getCantidad(), subtotal});
-    }
+      DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if (producto instanceof HeladoPaleta) {
+            model.addRow(new Object[]{tipoProducto, producto.getNombre(), "", "", producto.getCantidad(), subtotal});
+            dao.restarInventario(con, producto.getNombre(), producto.getCantidad());
+        } else if (producto instanceof HeladoCono cono) {
+            model.addRow(new Object[]{tipoProducto, producto.getNombre(), cono.getTamaño(), cono.getToppingsDescripcion(), producto.getCantidad(), subtotal});
+        } else if (producto instanceof Extra) {
+            model.addRow(new Object[]{tipoProducto, producto.getNombre(), "", "", producto.getCantidad(), subtotal});
+        }
 
     int total = 0;
     for (int i = 0; i < jTable1.getRowCount(); i++) {
