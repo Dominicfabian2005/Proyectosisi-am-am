@@ -1453,10 +1453,10 @@ try {
         double subtotal = Double.parseDouble(model.getValueAt(i, 5).toString()); // columna subtotal
 
         psDetalle.setInt(1, idPedido);
-        psDetalle.setString(2, tipoProducto);  // Producto = tipo
+        psDetalle.setString(2, tipoProducto);  
         psDetalle.setInt(3, cantidad);
         psDetalle.setString(4, tamaño);
-        psDetalle.setString(5, nombreSabor);   // Sabor = nombre real
+        psDetalle.setString(5, nombreSabor);   
         psDetalle.setString(6, topping);
         psDetalle.setDouble(7, subtotal);
 
@@ -1502,7 +1502,9 @@ JOptionPane.showMessageDialog(this, scroll, "Resumen de Pedido", JOptionPane.INF
     
   jTextField1.setText(""); 
     jTextField2.setText(""); 
-
+    
+DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+modelo.setRowCount(0);
 
     
     }//GEN-LAST:event_jButton2ActionPerformed

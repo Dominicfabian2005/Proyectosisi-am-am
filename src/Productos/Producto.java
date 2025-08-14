@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @author domif
  */
 
-   public  abstract class Producto {
+   public  abstract class Producto implements Iproducto{
   
    protected String nombre;
     protected int cantidad;
