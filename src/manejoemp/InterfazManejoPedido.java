@@ -373,6 +373,13 @@ private void mostrarProveedores() throws IOException {
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTablePedidos = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableDetalles = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         Productos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -404,13 +411,7 @@ private void mostrarProveedores() throws IOException {
         btnagregarprov = new javax.swing.JButton();
         actualizarbtn = new javax.swing.JButton();
         borrarbtn = new javax.swing.JButton();
-        Pedidos = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTablePedidos = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableDetalles = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        tab5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
@@ -495,15 +496,98 @@ private void mostrarProveedores() throws IOException {
         jLabel1.setText("SISTEMA HELADERIA BLIZZ- EMPLEADO");
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel5.setText("MANEJO DE PEDIDOS");
+
+        jTablePedidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "id", "Cliente", "fecha", "total", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTablePedidos);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 153, 255));
+        jLabel6.setText("DETALLES DEL PEDIDO SELECCIONADO");
+
+        jTableDetalles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Producto", "cantidad", "Tamano", "Sabor", "Topping", "subtotal"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableDetalles);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(13, 13, 13)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel6)
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("PEDIDOS", jPanel5);
@@ -834,92 +918,20 @@ private void mostrarProveedores() throws IOException {
 
         jTabbedPane1.addTab("PROVEEDORES", jPanel8);
 
-        Pedidos.setBackground(new java.awt.Color(255, 255, 255));
+        tab5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTablePedidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "id", "Cliente", "fecha", "total", "Estado"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(jTablePedidos);
-
-        jTableDetalles.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Producto", "cantidad", "Tamano", "Sabor", "Topping", "subtotal"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTableDetalles);
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(204, 153, 255));
-        jLabel5.setText("MANEJO DE PEDIDOS");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(204, 153, 255));
-        jLabel6.setText("DETALLES DEL PEDIDO SELECCIONADO");
-
-        javax.swing.GroupLayout PedidosLayout = new javax.swing.GroupLayout(Pedidos);
-        Pedidos.setLayout(PedidosLayout);
-        PedidosLayout.setHorizontalGroup(
-            PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PedidosLayout.createSequentialGroup()
-                .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PedidosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5)))
-                    .addGroup(PedidosLayout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PedidosLayout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(42, Short.MAX_VALUE))
+        javax.swing.GroupLayout tab5Layout = new javax.swing.GroupLayout(tab5);
+        tab5.setLayout(tab5Layout);
+        tab5Layout.setHorizontalGroup(
+            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 570, Short.MAX_VALUE)
         );
-        PedidosLayout.setVerticalGroup(
-            PedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PedidosLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+        tab5Layout.setVerticalGroup(
+            tab5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 605, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab5", Pedidos);
+        jTabbedPane1.addTab("tab5", tab5);
 
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 570, 640));
 
@@ -930,11 +942,13 @@ private void mostrarProveedores() throws IOException {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1573, Short.MAX_VALUE)
         );
 
         pack();
@@ -1111,13 +1125,13 @@ try {
     
     if (filaSeleccionada != -1) {
         try {
-            // Se obtienen los datos de la fila seleccionada
+            
             int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
             String nuevoNombre = tableproductos.getValueAt(filaSeleccionada, 1).toString();
             String nuevaCategoria = tableproductos.getValueAt(filaSeleccionada, 2).toString();
             double nuevoPrecio = Double.parseDouble(tableproductos.getValueAt(filaSeleccionada, 3).toString());
 
-            String sql = "UPDATE productos SET nombre = ?, categoria = ?, precio = ? WHERE id = ?";
+            String sql = "UPDATE producto SET nombre = ?, categoria = ?, precio = ? WHERE id = ?";
             
             try (Connection con = ConexionDB.conectar();
                  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -1131,7 +1145,7 @@ try {
                 
                 if (filasAfectadas > 0) {
                     JOptionPane.showMessageDialog(this, "Producto actualizado correctamente.");
-                    mostrarProductos(); // Recarga la tabla para mostrar los cambios
+                    mostrarProductos(); 
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo actualizar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1150,16 +1164,16 @@ try {
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea borrar este producto?", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
-                // Obtiene el ID del producto de la primera columna de la fila seleccionada.
+              
                 int idProducto = Integer.parseInt(tableproductos.getValueAt(filaSeleccionada, 0).toString());
-                String sql = "DELETE FROM productos WHERE id = ?";
+                String sql = "DELETE FROM producto WHERE id = ?";
                 try (Connection con = ConexionDB.conectar();
                      PreparedStatement ps = con.prepareStatement(sql)) {
                     ps.setInt(1, idProducto);
                     int filasAfectadas = ps.executeUpdate();
                     if (filasAfectadas > 0) {
                         JOptionPane.showMessageDialog(this, "Producto borrado correctamente.");
-                        // Refresca la tabla para reflejar el cambio.
+                        
                         mostrarProductos();
                     }
                 }
@@ -1288,7 +1302,6 @@ private void borrarProveedorEnBD(int id) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Inventario;
-    private javax.swing.JPanel Pedidos;
     private javax.swing.JPanel Productos;
     private javax.swing.JPanel Proveedores;
     private javax.swing.JButton actualizarProducto;
@@ -1316,6 +1329,7 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -1335,6 +1349,7 @@ private void borrarProveedorEnBD(int id) {
     private javax.swing.JTable jTableDetalles;
     private javax.swing.JTable jTablePedidos;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel tab5;
     private javax.swing.JTable tablaproveedor;
     private javax.swing.JTable tableproductos;
     private javax.swing.JTextField txtBuscar;
