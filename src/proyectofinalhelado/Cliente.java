@@ -4,6 +4,8 @@
  */
 package proyectofinalhelado;
 
+import Pedidopack.Pedido;
+
 /**
  *
  * @author domif

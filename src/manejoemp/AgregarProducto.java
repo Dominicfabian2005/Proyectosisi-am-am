@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package proyectofinalhelado;
+package manejoemp;
 
 import conexionBD.ConexionDB;
 import java.sql.Connection;
@@ -84,7 +84,7 @@ public class AgregarProducto extends javax.swing.JFrame {
 
         txtnombreprod.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255)));
 
-        combocategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paleta", "Helado ", "Topping ", "Utencilio", " " }));
+        combocategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paleta", "Helado ", "Topping ", "Bebida", "Postre", " " }));
         combocategoria.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255)));
 
         txtprecioprod.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255), new java.awt.Color(204, 153, 255)));

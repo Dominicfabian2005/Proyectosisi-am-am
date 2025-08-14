@@ -13,8 +13,8 @@ import java.sql.Connection;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import proyectofinalhelado.Iniciohelado;
-import proyectofinalhelado.InterfazManejoPedido;
-import proyectofinalhelado.NewJFrame;
+import manejoemp.InterfazManejoPedido;
+import Pedidopack.NewJFrame;
 
 /**
  *

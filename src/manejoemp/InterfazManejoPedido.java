@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package proyectofinalhelado;
+package manejoemp;
 
+import manejoemp.InterfazAgregarProducto;
+import manejoemp.AgregarProveedor;
+import manejoemp.AgregarProducto;
 import EmpleadoPack.LoginEmpleado;
 
 import java.awt.BorderLayout;
