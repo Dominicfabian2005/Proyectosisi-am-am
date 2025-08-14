@@ -10,6 +10,7 @@ package EmpleadoPack;
  */
 public class Usuario {
     private int id;
+    private String nombre;
     private String correo;
     private  String contrasena;
     private String rol;
@@ -19,13 +20,16 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int id, String correo, String contrasena, String rol, int idempleado) {
+    public Usuario(int id, String nombre, String correo, String contrasena, String rol, int idempleado) {
         this.id = id;
+        this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
         this.rol = rol;
         this.idempleado = idempleado;
     }
+
+   
 
     public int getId() {
         return id;

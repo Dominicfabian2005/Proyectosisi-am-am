@@ -66,7 +66,7 @@ private final int INTERVALO_MS = 5000;
     public InterfazManejoPedido() {
         initComponents();
          configurarSelectionListener();
-    cargarPedidos();        // carga inicial
+    cargarPedidos();      
    
     if (jTablePedidos.getRowCount() > 0) {
         jTablePedidos.setRowSelectionInterval(0, 0);
@@ -86,28 +86,48 @@ modelo.addTableModelListener(e -> {
         int fila = e.getFirstRow();
         int columna = e.getColumn();
 
-        // Cambia 4 por el índice correcto en tu modelo
-        if (columna == 4) {
+        if (columna == 4) { 
             String nuevoEstado = modelo.getValueAt(fila, columna).toString();
             int idPedido = Integer.parseInt(modelo.getValueAt(fila, 0).toString());
 
-            // Actualizar en la BD
-            actualizarEstadoEnBD(idPedido, nuevoEstado);
-
-           
+         
+            try (Connection con = ConexionDB.conectar()) {
+                boolean exito = actualizarEstadopedidoEnBD(con, idPedido, nuevoEstado);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(null, "No se pudo actualizar el estado.");
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.");
+            }
         }
     }
 });
+
        
     }
 
     
-  
+  public boolean actualizarEstadopedidoEnBD(Connection con, int idPedido, String nuevoEstado) {
+    String sql = "UPDATE pedido SET estado = ? WHERE id_pedido = ?";
+    
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, nuevoEstado);
+        ps.setInt(2, idPedido);
+        
+        int filasAfectadas = ps.executeUpdate();
+        return filasAfectadas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
     
     private void cargarPedidos() {
     DefaultTableModel model = (DefaultTableModel) jTablePedidos.getModel();
 
-    // Guardar id seleccionado actual (si hay)
+   
     int filaSeleccionada = jTablePedidos.getSelectedRow();
     int idSeleccionado = -1;
     if (filaSeleccionada >= 0) {
@@ -117,7 +137,7 @@ modelo.addTableModelListener(e -> {
         }
     }
 
-    model.setRowCount(0); // limpiar
+    model.setRowCount(0); 
 
     String sql = "SELECT id_pedido, cliente, fecha, total, estado " +
              "FROM pedido " +
@@ -257,15 +277,11 @@ private boolean actualizarEstadoEnBD(int idPedido, String nuevoEstado) {
         double precio = (double) tablaproveedor.getValueAt(fila, 3);
         String telefono = tablaproveedor.getValueAt(fila, 4).toString();
 
-        // Puedes crear una nueva ventana o un cuadro de diálogo para la edición
-        // Por ahora, lo haremos directamente en la base de datos
-        // ... (Aquí iría la lógica para editar y actualizar en la BD)
-        
-        // Ejemplo de diálogo para actualizar
+     
         String nuevoNombre = JOptionPane.showInputDialog(this, "Nuevo nombre:", nombre);
         if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
             actualizarProveedorEnBD(idProveedor, nuevoNombre, producto, precio, telefono);
-            // Vuelve a cargar los datos después de actualizar
+            
             try {
                 mostrarProveedores();
             } catch (IOException ex) {
@@ -278,7 +294,7 @@ private boolean actualizarEstadoEnBD(int idPedido, String nuevoEstado) {
        return false;
 }
 
-// Método para actualizar en la base de datos
+
 private void actualizarProveedorEnBD(int id, String nombre, String producto, double precio, String telefono) {
     String sql = "UPDATE proveedores SET nombre = ?, producto = ?, precio = ?, telefono = ? WHERE id = ?";
     try (Connection con = ConexionDB.conectar();
@@ -1119,10 +1135,9 @@ private void mostrarProveedores() throws IOException {
         int fila = tableinventario.getSelectedRow();
     if (fila >= 0) {
         int idInventario = (int) tableinventario.getValueAt(fila, 0);
-        // ... obtener otros datos de la fila ...
+      
         
-        // Lógica para actualizar en la base de datos
-        // actualizarInventarioEnBD(idInventario, ...);
+        
         
         JOptionPane.showMessageDialog(this, "Funcionalidad de actualizar inventario no implementada.");
     } else {
